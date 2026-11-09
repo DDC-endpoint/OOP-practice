@@ -29,7 +29,7 @@ A practice repo for the 5COSC019W OOP Lab-Based Practical. It teaches each skill
 - **FR-6 Solutions branch.** The `solutions` branch is `main` plus completed code for every drill, M1, P1, P2 and P3. `main` never contains solution bodies.
 - **FR-7 Papers for the site.** `papers/<id>.md` exists for each drill (`d01`…`d11`), `m1`, `p1`, `p2` and `p3`. Each has YAML front matter `id, module: OOP, kind: drill|mock|past-paper, title, difficulty: 1-5, timeMinutes, tasks: [{name, marks}]`, followed by the brief text.
 - **FR-8 README.** The root `README.md` covers clone, open and run on any device (IntelliJ Community, JDK 17), how to run a drill's tests, how to attempt and mark a paper, how to compare with `solutions` (`git diff main solutions -- <path>`), and a day-by-day order up to the LBP.
-- **FR-9 Remote.** A private GitHub repo `EnderGuardian25/OOP-practice` with `main` and `solutions` pushed. Push after each wave, so the student can start on d01–d03 early.
+- **FR-9 Remote.** A private GitHub repo `DDC-endpoint/OOP-practice` with `main` and `solutions` pushed. Push after each wave, so the student can start on d01–d03 early.
 - **FR-10 Self-check.** `scripts/selfcheck.sh` checks the whole pack in one command (see AC-1 to AC-3). `.specclaw/config.yaml` `build.test_command` points to it.
 
 ### Non-Functional Requirements
@@ -65,7 +65,7 @@ A practice repo for the 5COSC019W OOP Lab-Based Practical. It teaches each skill
 ## Dependencies
 
 - JDK 17 (installed). The Maven 3.9.9 distribution is downloaded once to generate the wrapper.
-- `gh` authenticated as `EnderGuardian25` with `repo` scope (verified).
+- `gh` authenticated; actual login `DDC-endpoint` (keyring label EnderGuardian25) with `repo` scope (verified).
 - The source papers and starters in `D:\year-2-prep\OOP\05_LBP_Practice_Papers\`.
 
 ## Notes

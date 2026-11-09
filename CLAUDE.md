@@ -5,7 +5,7 @@ A practice pack for the 5COSC019W OOP Lab-Based Practical (LBP): a 100-minute ti
 ## Session rules
 - **Start of session:** read `HANDOFF.md` first.
 - **End of session:** update `HANDOFF.md` before finishing. Overwrite "Current state", "Next steps" and "Open questions", and add a dated entry to "Session log".
-- Work goes through SpecClaw (`.specclaw/`). The current change is `001-lbp-practice-pack`.
+- Work goes through SpecClaw (`.specclaw/`). `001-lbp-practice-pack` is archived; start new work with `/specclaw:propose`. Read `.specclaw/context.md` for project rules.
 - The student is still learning. Lessons teach first (concept → worked example → task → hints), in plain w3schools-like language.
 
 ## Hard rules

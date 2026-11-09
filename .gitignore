@@ -12,3 +12,6 @@ target/
 *.iml
 out/
 .staging/
+# marking tests copied in by marking/Mark.java
+past-papers/*/src/test/java/marking/
+mock-papers/*/src/test/java/marking/

@@ -22,7 +22,7 @@ A **viva** follows, where you explain your code.
 
 The first build downloads Maven and Spring Boot automatically, so it needs internet and takes a few minutes. You don't need to install Maven.
 
-> Until the build branch is merged, the content is on `specclaw/001-lbp-practice-pack`. After cloning, run `git switch specclaw/001-lbp-practice-pack`. Get updates with `git pull`.
+> Get updates any time with `git pull`. Stay on `main`; never work on the `solutions` branch.
 
 ## 1 · Do a drill
 

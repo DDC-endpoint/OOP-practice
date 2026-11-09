@@ -1,0 +1,61 @@
+# Project Context
+
+_Last updated: 2026-11-09 after 001-lbp-practice-pack_
+
+## Architecture Overview
+- A practice pack for the 5COSC019W OOP Lab-Based Practical. Stack: Java 17, Spring Boot 3.3.5, Maven wrapper 3.9.9.
+- **Drills.** Each drill (`drills/dNN-*`) is a module of the root aggregator `pom.xml` (`edu.practice:oop-practice`). It contains:
+  - `LESSON.md`, with front matter and five sections: idea, worked example, task, hints, viva.
+  - A starter in `src/main`.
+  - Tests in `src/test`.
+- **Papers.** Each project in `mock-papers/*` and `past-papers/*` is a standalone Spring Boot project with its own wrapper and a `PAPER.md`.
+  - Marking tests live outside the projects, in `marking/<id>/src/test/java/marking/`.
+  - `marking/Mark.java` copies them into the attempt and scores it.
+- **Branches.**
+  - `main` and the feature branch hold the starters, lessons, tests and marking.
+  - `solutions` is `main` plus the completed `src/main` files, and nothing else.
+- **Site files.** `papers/<id>.md` is generated from `LESSON.md` or `PAPER.md` by `scripts/sync-papers.sh`, for the future study site.
+
+## Coding Style & Conventions
+- Mirror the LBP starters:
+  - packages `model / dto / repo / service / controller / error`
+  - records for DTOs, and `ApiError(code, message)`
+  - an in-memory `ConcurrentHashMap` repository
+  - constructor injection
+  - a `@RestControllerAdvice` that maps IllegalArgumentException → 400 `BAD_REQUEST`, NotFound → 404 `NOT_FOUND`, and Conflict → 409 `CONFLICT`
+- Starter TODOs are written `// TODO dNN-n: …`. Unfinished method bodies throw `UnsupportedOperationException("dNN: …")`.
+- Drill tests use numbered names: `@DisplayName("1. …")`.
+- Marking test methods end in `_m<N>`, where N is the marks. The marks in `Task1Test`…`Task4Test` and `SectionBTest` must sum to exactly 18/22/20/20/20.
+
+## Key Patterns
+- **Classes the student creates** are reached through the `Reflect` helper (`templates/Reflect.java`). This keeps starters compiling, and a missing class costs only its own marks.
+- **Marking isolates each task:**
+  - Task 2/3 service tests use stub subclasses and stub repositories.
+  - Task 4 tests compare against the app's own service bean or a `@MockBean`.
+  - Error mapping is tested through a controller that only throws.
+- **Section B checks** use `@SpringBootTest(classes = <App>.class, webEnvironment = RANDOM_PORT)` with `TestRestTemplate` and `@DirtiesContext`. The `classes =` part is required because the `marking` package isn't under the app's package.
+- **Source scans** enforce "no type checks". `SourceScan` strips comments, then bans `instanceof`, casts or `.class` of concrete types, and other `getClass()` uses. `getClass().getSimpleName()` is allowed as a type label.
+- **Solution workflow:**
+  1. Build the full solution first.
+  2. Stage the changed `src/main` files in `.staging/solutions/` (gitignored).
+  3. Turn the project back into the starter.
+  4. The lead commits the starter, merges the build branch into `solutions`, and overlays the staged files.
+
+## Technology Decisions
+- A Maven wrapper ships in every project, so no global Maven install is needed.
+- The marking runner is single-file Java (`java marking/Mark.java`). It works on any platform with only JDK 17. `mark.sh` and `mark.cmd` are thin wrappers.
+- IntelliJ's HTTP Client is Ultimate-only, so Section B is covered by tests. `requests.http` is a bonus.
+- The only dependencies are `spring-boot-starter-web` and `spring-boot-starter-test`.
+
+## Constraints
+- Never put solution bodies on `main` or the feature branch. `solutions` may differ only under `src/main/` (selfcheck AC-10).
+- After **any** commit on the content branch, run `git switch solutions && git merge <branch>`. Never merge in the other direction. Selfcheck fails if `solutions` is behind.
+- Untouched starters must score ≤ 20/100, and solutions exactly 100. Test every rule with at least 2 inputs, including one that isn't shown in the paper or lesson.
+- Scenarios must be fictional and new. Never claim to predict the real exam.
+- Don't run `specclaw-build finalize` with `branch-per-change`. It merges into `main` locally and deletes the branch, which bypasses verify and the PR. Use `specclaw-set-phase … build done` after selfcheck passes.
+- An absolute `<relativePath>` doesn't resolve on Windows. To test a drill outside the repo, copy the root pom next to it.
+
+## Recent Decisions
+- 001-lbp-practice-pack: drills, the M1 mock, and scored marking for P1–P3. Solutions live on a separate branch, and marking tests live outside each project.
+- 001-lbp-practice-pack: the AC-6 scan allows `getClass().getSimpleName()` as a DTO type label (P1 `passType`, P2 `type`).
+- 001-lbp-practice-pack: every lesson ends with viva questions, because the LBP is viva-verified.

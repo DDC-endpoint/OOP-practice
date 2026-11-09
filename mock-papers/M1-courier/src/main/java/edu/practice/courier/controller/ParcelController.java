@@ -5,6 +5,11 @@ import java.util.*;import org.springframework.http.*;import org.springframework.
  private final ParcelService service;
  public ParcelController(ParcelService service){this.service=service;}
  @GetMapping public Collection<Parcel> list(){return service.all();}
- // TODO Task 4: GET /{id}/quote, POST /standard (HTTP 201 with the created parcel) and
- // GET /van?capacityGrams=... where capacityGrams defaults to 2000. Delegate all logic to the service.
+ @GetMapping("/{id}/quote") public Quote quote(@PathVariable long id){return service.quote(id);}
+ @PostMapping("/standard") public ResponseEntity<Parcel> addStandard(@RequestBody NewStandardParcel body){
+  return ResponseEntity.status(HttpStatus.CREATED).body(service.addStandard(body)); // 201, not the default 200
+ }
+ @GetMapping("/van") public VanLoad van(@RequestParam(defaultValue="2000") int capacityGrams){
+  return service.loadVan(capacityGrams);
+ }
 }

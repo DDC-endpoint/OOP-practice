@@ -1,14 +1,21 @@
 package edu.practice.courier.model;
 public class StandardParcel extends Parcel {
- // TODO Task 1: declare a private final int ratePerBlockPence field and a public getter getRatePerBlockPence().
+ private final int ratePerBlockPence;
  public StandardParcel(long id,String trackingCode,int weightGrams,int ratePerBlockPence){
-  super(id,trackingCode,weightGrams);
-  // TODO Task 1: reject weightGrams <= 0 or ratePerBlockPence <= 0 (IllegalArgumentException), then store the rate.
+  super(id,trackingCode,weightGrams); // super(...) must be the first statement, so validate straight after it
+  if(weightGrams<=0) throw new IllegalArgumentException("weightGrams must be positive");
+  if(ratePerBlockPence<=0) throw new IllegalArgumentException("ratePerBlockPence must be positive");
+  this.ratePerBlockPence=ratePerBlockPence;
  }
+ public int getRatePerBlockPence(){return ratePerBlockPence;}
  @Override public int pricePence(){
-  // TODO Task 1: charge ratePerBlockPence for every started 500 g block; reject a price that does not fit in an int.
-  throw new UnsupportedOperationException("Task 1");
+  int w=getWeightGrams();
+  // Ceiling division: one block per STARTED 500 g. (w+499)/500 would overflow near Integer.MAX_VALUE,
+  // so add the extra block only when there is a remainder.
+  long blocks=w/500+(w%500==0?0:1);
+  long price=blocks*ratePerBlockPence;          // long maths: cannot overflow here
+  if(price>Integer.MAX_VALUE) throw new IllegalArgumentException("price does not fit in an int");
+  return (int)price;
  }
- @Override public int priority(){ // TODO Task 1: a standard parcel always has priority 1.
-  throw new UnsupportedOperationException("Task 1");}
+ @Override public int priority(){return 1;}
 }

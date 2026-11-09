@@ -78,7 +78,7 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
     - d07: trim before storing, blank after trim → 400-worthy `IllegalArgumentException`, duplicate ID rejected and **not persisted**.
     - d08: MockMvc asserts both the status and the JSON body `code` / `message`.
     - d09: TestRestTemplate, a `@RequestParam` default value tested by omitting the param, POST → 201 and the item appears in a later GET.
-- [~] `T5` — Drill d10 debug-and-check
+- [x] `T5` — Drill d10 debug-and-check
   - Files: `drills/d10-debug-and-check/**`, `papers/d10.md`, `pom.xml`
   - Estimate: medium
   - Kind: impl
@@ -107,7 +107,7 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
     - The marking tests follow each paper's mark lines exactly. Every illustrative value in the paper becomes an assertion (P1: 61 min → 500, 481 min → 950, WeekendPass first at 481; P2: energy 39/38, plan capacity=60 → selected [103,102], skipped [101], used 56, remaining 4; P3: the deadline workload ranks ahead at tick 0, identical commit leaves the reservation count unchanged, a changed runKey request → 409).
     - Solutions on `solutions` reach 100/100.
     - P3 is the stretch paper. If time runs short, ship P3's marking and leave its solution for last.
-- [~] `T8` — Drill d11 stateful-commit
+- [x] `T8` — Drill d11 stateful-commit
   - Files: `drills/d11-stateful-commit/**`, `papers/d11.md`, `pom.xml`
   - Estimate: medium
   - Kind: impl
@@ -117,7 +117,7 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
 
 ### Wave 5 — Finish
 
-- [ ] `T9` — README, selfcheck green, final push, handoff
+- [x] `T9` — README, selfcheck green, final push, handoff
   - Files: `README.md`, `HANDOFF.md`
   - Estimate: small
   - Kind: docs

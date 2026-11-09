@@ -1,6 +1,6 @@
 # Timeline: 001-lbp-practice-pack
 
-**Total measured (leaf spans):** 3h38m32s  ·  **Retries:** 0  ·  **Open spans:** 1 ⏱ still running
+**Total measured (leaf spans):** 3h38m32s  ·  **Retries:** 0  ·  **Open spans:** 3 ⏱ still running
 
 ## By kind
 
@@ -32,5 +32,7 @@
 | `T5` | task | T5 | opus | 1 | ok | 36m37s |
 | `T8` | task | T8 | opus | 1 | ok | 36m32s |
 | `T9` | - | - | - | - | ok | ⏱ still running |
+| `verify-1794245012` | phase | verify | - | - | - | ⏱ still running |
+| `verify` | - | - | - | - | ok | ⏱ still running |
 
 _No baseline: this project has no archived timelines to compare against yet._

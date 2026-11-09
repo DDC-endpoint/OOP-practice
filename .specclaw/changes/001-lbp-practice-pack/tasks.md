@@ -69,7 +69,7 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
   - Notes:
     - d04 includes the source-scan test (no `instanceof` / `getClass()` in the service file; AC-6).
     - d05 tests tie-breaks explicitly: equal primary key → secondary key → tertiary key.
-- [~] `T4` — Drills d07 service-validation, d08 error-handling, d09 rest-endpoints
+- [x] `T4` — Drills d07 service-validation, d08 error-handling, d09 rest-endpoints
   - Files: `drills/d07-service-validation/**`, `drills/d08-error-handling/**`, `drills/d09-rest-endpoints/**`, `papers/d07.md`, `papers/d08.md`, `papers/d09.md`, `pom.xml`
   - Estimate: large
   - Kind: impl
@@ -89,7 +89,7 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
 
 ### Wave 4 — Papers
 
-- [ ] `T6` — Mock paper M1 courier
+- [~] `T6` — Mock paper M1 courier
   - Files: `mock-papers/M1-courier/**` (standalone project + wrapper + `PAPER.md` + `requests.http`), `marking/m1/**`, `papers/m1.md`
   - Estimate: large
   - Kind: impl

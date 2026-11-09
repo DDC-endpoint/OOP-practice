@@ -61,7 +61,7 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
 
 ### Wave 3 — Remaining core drills
 
-- [~] `T3` — Drills d04 polymorphism, d05 sorting, d06 records-dtos
+- [x] `T3` — Drills d04 polymorphism, d05 sorting, d06 records-dtos
   - Files: `drills/d04-polymorphism/**`, `drills/d05-sorting/**`, `drills/d06-records-dtos/**`, `papers/d04.md`, `papers/d05.md`, `papers/d06.md`, `pom.xml`
   - Estimate: large
   - Kind: impl

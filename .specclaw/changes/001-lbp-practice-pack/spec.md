@@ -74,3 +74,5 @@ A practice repo for the 5COSC019W OOP Lab-Based Practical. It teaches each skill
 
 - Assumption: the student uses IntelliJ IDEA Community, so no HTTP Client is available. Section B is covered by tests, and each paper also gets a `requests.http` as a bonus for Ultimate users.
 - d11 stays one drill. Splitting it is unnecessary at this size (open question resolved).
+
+- AC-6 refinement (T7): for P1/P2 the scan allows `getClass().getSimpleName()` used only to label a type in a given DTO (Quote.passType, PlanLine.type); it fails on `instanceof`, any other `getClass()` use, and casts / `.class` of concrete subclasses.

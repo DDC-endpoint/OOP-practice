@@ -98,7 +98,7 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
     - Must satisfy FR-2. Write `PAPER.md` in the LBP paper structure (instructions, scenario, files supplied, marking table, Tasks 1–4 with per-line marks, illustrative calculations, REST operations, Section B six checks, submission).
     - The starter mirrors the LBP starter style: an abstract parent, one incomplete subclass, a repo with a seed TODO, DTO records, a service and controller with TODOs, and an `ApiExceptionHandler` with a TODO.
     - Marking tests: `marking/m1/src/test/java/marking/{Task1Test..Task4Test,SectionBTest,Reflect}.java`. Their marks match `PAPER.md` line by line.
-- [~] `T7` — P1–P3 projects and marking
+- [x] `T7` — P1–P3 projects and marking
   - Files: `past-papers/P1-parking/**`, `past-papers/P2-drone/**`, `past-papers/P3-scheduler/**` (unzipped from `D:\year-2-prep\OOP\05_LBP_Practice_Papers\*_Starter.zip`, plus wrapper and `PAPER.md` converted from the docx), `marking/p1/**`, `marking/p2/**`, `marking/p3/**`, `papers/p1.md`, `papers/p2.md`, `papers/p3.md`
   - Estimate: large
   - Kind: impl

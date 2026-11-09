@@ -22,5 +22,8 @@
 
   <modules>
     <!-- drills are added here as they are built -->
+    <module>drills/d01-classes-constructors</module>
+    <module>drills/d02-new-subclass</module>
+    <module>drills/d03-integer-maths</module>
   </modules>
 </project>

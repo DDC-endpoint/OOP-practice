@@ -5,23 +5,28 @@ _Update this file at the end of every session. Overwrite the top three sections,
 **Last updated:** 2026-11-09
 
 ## Current state
-- SpecClaw change `001-lbp-practice-pack` is **in build** (proposal, spec, design and tasks are approved and done; the review panel was skipped by choice). The work is on branch `specclaw/001-lbp-practice-pack`, and `main` only has the baseline until the PR merges.
-- Remote: **https://github.com/DDC-endpoint/OOP-practice** (private). The `gh` token's real login is `DDC-endpoint`, even though the keyring labels it EnderGuardian25.
-- Done:
-  - T1: scaffold, Maven 3.9.9 wrapper, `marking/Mark.java` (tested), `scripts/selfcheck.sh`, `scripts/sync-papers.sh`, `templates/Reflect.java`.
-  - T2: drills d01–d03 (starters fail every test, and solutions on `solutions` are green), starter README. Pushed.
-- In flight (parallel subagents): T3 d04–d06, T4 d07–d09, T7 P1–P3 projects + marking + solutions. The order was changed so P1–P3 come before T5/T6/T8, because they matter most for the exam.
-- How solutions flow: agents put solution files in `.staging/solutions/<path>` (gitignored). The lead commits starters on the build branch, then `git switch solutions && git merge <build branch>`, overlays the staging files, runs the tests green, commits, and switches back.
-- Lesson front matter lives in `LESSON.md` / `PAPER.md`. `scripts/sync-papers.sh` copies it to `papers/<id>.md`.
-- Added from the friend's hub: every lesson ends with `## Viva questions` (spec FR-1 updated).
+- **The pack is fully built.** SpecClaw change `001-lbp-practice-pack` has every task T1–T9 complete. The build is recorded as done, and verify is in progress.
+  - **Drills:** 11 (`d01`–`d11`), one aggregator. Every starter fails its tests, and every solution passes.
+  - **Papers:** P1, P2 and P3 (the official starters, unchanged) and M1 (the new courier mock). Each has a `PAPER.md`, and each is marked by `marking/Mark.java` (solutions score 100 each; untouched starters score 4, 4, 4 and 0).
+  - **Other files:** `papers/*.md` (16 files for the site), the README with a plan to the LBP, and `scripts/selfcheck.sh`. The last full selfcheck run gave 43 PASS and **SELFCHECK OK**.
+- **Branches** (all pushed to https://github.com/DDC-endpoint/OOP-practice, private):
+  - `specclaw/001-lbp-practice-pack` has the content.
+  - `solutions` is the content branch merged in, plus the solution files.
+  - `main` has only the baseline until the PR merges.
+- **Solution workflow:** solution files are staged in `.staging/solutions/` (gitignored, local only). The lead merges the build branch into `solutions` and overlays the staging files.
+- **Decisions recorded in the spec:**
+  - The AC-6 scan allows `getClass().getSimpleName()` only for DTO type labels (P1/P2).
+  - d11 `timeMinutes` is 25 (stretch).
+  - d10 has 3 planted bugs, and 7 of its tests already pass on the starter.
+- I deliberately did not run `specclaw-build finalize`. It would merge the branch into `main` locally and delete it, which bypasses verify and the PR. Instead the build was marked done with `specclaw-set-phase … build done`.
 
 ## Next steps
-1. Integrate T3/T4/T7 (register modules in the root pom, sync papers, commit, solutions branch, selfcheck, push).
-2. T5 d10, T6 M1, T8 d11 (can run in parallel), then T9: full README with a day-by-day schedule, selfcheck green, push.
-3. `/specclaw:verify` → `/specclaw:pr` → merge to `main`.
+1. Finish `/specclaw:verify`, then `/specclaw:pr`, then merge the PR to `main`. After that, `main` holds the content, so update the README's note about switching branches.
+2. Keep `solutions` in sync: always run `git switch solutions && git merge main`, never the other way round.
+3. The student works through the README plan: P1 timed on Thu 12 Nov, P2 on Fri, M1 on Sat.
 
 ## Open questions
-- Exact LBP date (Week 9 seminar, about 16–20 Nov 2026). The qualifying mark is 30.
+- The exact LBP date. It's the Week 9 seminar, around 16–20 Nov 2026, and the qualifying mark is 30.
 
 ## Session log
-- **2026-11-09:** Design agreed, folder created, SpecClaw initialised, proposal drafted.
+- **2026-11-09:** Design agreed. Created the folder and set up SpecClaw. Wrote the proposal, spec, design and tasks. Built T1 and T2 myself; T3–T8 were built by parallel subagents and integrated. Wrote the README. Selfcheck is green, and verify has started.

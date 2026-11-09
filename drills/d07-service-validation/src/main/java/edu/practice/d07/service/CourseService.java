@@ -28,21 +28,35 @@ public class CourseService {
 
     /** The course with this id. */
     public Course get(long id) {
-        // TODO d07-1: ask the repository for the course.
-        //             If it isn't there (null), throw new CourseNotFoundException(id). Never return null.
-        throw new UnsupportedOperationException("d07: write get(id)");
+        Course course = repo.get(id);
+        if (course == null) {
+            throw new CourseNotFoundException(id);
+        }
+        return course;
     }
 
     /** Checks the new course, stores it, and returns the stored course. */
     public Course add(NewCourse body) {
-        // TODO d07-2: CHECK first. One guard clause per rule; each throws
-        //             new IllegalArgumentException("<what is wrong>"):
-        //               - id must be positive
-        //               - code must not be null or blank
-        //               - title must not be null or blank
-        //               - capacity must be 1..MAX_CAPACITY
-        //               - the id must not be used already (repo.contains)
-        //             THEN build a Course with code and title trimmed, save it, and return it.
-        throw new UnsupportedOperationException("d07: write add(body)");
+        if (body == null) {
+            throw new IllegalArgumentException("course details are required");
+        }
+        if (body.id() <= 0) {
+            throw new IllegalArgumentException("id must be positive");
+        }
+        if (body.code() == null || body.code().isBlank()) {
+            throw new IllegalArgumentException("code is required");
+        }
+        if (body.title() == null || body.title().isBlank()) {
+            throw new IllegalArgumentException("title is required");
+        }
+        if (body.capacity() <= 0 || body.capacity() > MAX_CAPACITY) {
+            throw new IllegalArgumentException("capacity must be between 1 and " + MAX_CAPACITY);
+        }
+        if (repo.contains(body.id())) {
+            throw new IllegalArgumentException("a course with id " + body.id() + " already exists");
+        }
+        Course course = new Course(body.id(), body.code().trim(), body.title().trim(), body.capacity());
+        repo.save(course);
+        return course;
     }
 }

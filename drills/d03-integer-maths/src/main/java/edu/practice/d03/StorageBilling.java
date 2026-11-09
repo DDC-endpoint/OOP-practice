@@ -20,22 +20,27 @@ public final class StorageBilling {
 
     /** How many 100 GB blocks are needed to hold `gb` gigabytes. */
     public static int blocksFor(int gb) {
-        // TODO d03-1: reject gb <= 0; ceiling division WITHOUT overflow (gb can be Integer.MAX_VALUE).
-        throw new UnsupportedOperationException("d03: blocksFor");
+        if (gb <= 0) throw new IllegalArgumentException("gb must be positive");
+        return (gb - 1) / GB_PER_BLOCK + 1;
     }
 
     /** Half of `cents`, rounded up: 999 -> 500, 1000 -> 500, 1 -> 1. */
     public static int halfRoundedUp(int cents) {
-        // TODO d03-2: reject cents <= 0; round up.
-        throw new UnsupportedOperationException("d03: halfRoundedUp");
+        if (cents <= 0) throw new IllegalArgumentException("cents must be positive");
+        return (cents - 1) / 2 + 1;
     }
 
     /** Monthly price in cents for storing `gb` gigabytes. */
     public static int priceCents(int gb, int centsPerBlock) {
-        // TODO d03-3: reject centsPerBlock <= 0.
-        //             blocks = blocksFor(gb); first 10 at full price, the rest at halfRoundedUp(centsPerBlock).
-        //             Use Math.multiplyExact / Math.addExact and turn their ArithmeticException
-        //             into an IllegalArgumentException.
-        throw new UnsupportedOperationException("d03: priceCents");
+        if (centsPerBlock <= 0) throw new IllegalArgumentException("centsPerBlock must be positive");
+        int blocks = blocksFor(gb);
+        int full = Math.min(blocks, FULL_PRICE_BLOCKS);
+        int rest = blocks - full;
+        try {
+            return Math.addExact(Math.multiplyExact(full, centsPerBlock),
+                                 Math.multiplyExact(rest, halfRoundedUp(centsPerBlock)));
+        } catch (ArithmeticException e) {
+            throw new IllegalArgumentException("price too large", e);
+        }
     }
 }

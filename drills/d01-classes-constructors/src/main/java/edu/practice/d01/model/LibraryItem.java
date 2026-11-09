@@ -10,12 +10,10 @@ public abstract class LibraryItem {
     private final String title;   // final   = set once, in the constructor, never changed
 
     protected LibraryItem(long id, String title) {
-        // TODO d01-A: reject bad data BEFORE storing it.
-        //   - id must be positive            -> otherwise throw new IllegalArgumentException("...")
-        //   - title must not be null or blank -> otherwise throw new IllegalArgumentException("...")
-        //   - store the title trimmed ("  Dune " becomes "Dune")
+        if (id <= 0) throw new IllegalArgumentException("id must be positive");
+        if (title == null || title.isBlank()) throw new IllegalArgumentException("title is required");
         this.id = id;
-        this.title = title;
+        this.title = title.trim();
     }
 
     public long getId() { return id; }

@@ -12,7 +12,7 @@ public class MembershipRepository {
 
     public MembershipRepository() {
         memberships.put(1L, new PayAsYouGo(1, "Asha", 450));
-        // TODO d02-4 (after you create Annual): add new Annual(2, "Ben", 39_000) here.
+        memberships.put(2L, new Annual(2, "Ben", 39_000));
     }
 
     public Collection<Membership> all() { return List.copyOf(memberships.values()); }

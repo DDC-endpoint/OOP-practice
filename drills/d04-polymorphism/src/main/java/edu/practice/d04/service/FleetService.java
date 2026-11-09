@@ -13,7 +13,6 @@ import java.util.List;
  * RULE FOR THIS WHOLE FILE: only ever talk to vehicles as `Vehicle`.
  * No type checks, no casts, no mentioning the subclasses by name.
  * Let each object run its own costCents(...) rule (dynamic dispatch).
- * (A test reads this file and fails if it finds instanceof, getClass() or a subclass name.)
  */
 public class FleetService {
 
@@ -28,10 +27,16 @@ public class FleetService {
      * An empty convoy costs 0. km <= 0 or a total too big for an int -> IllegalArgumentException.
      */
     public int convoyCostCents(List<Vehicle> convoy, int km) {
-        // TODO d04-1: reject km <= 0 FIRST (an empty convoy with km 0 is still an error).
-        //             Loop over the convoy and add up v.costCents(km) for every vehicle v.
-        //             Add with Math.addExact and turn its ArithmeticException into an IllegalArgumentException.
-        throw new UnsupportedOperationException("d04: add up costCents(km) over the convoy");
+        if (km <= 0) throw new IllegalArgumentException("km must be positive");
+        int total = 0;
+        for (Vehicle v : convoy) {              // v's TYPE is Vehicle; the OBJECT may be a Van, a Truck...
+            try {
+                total = Math.addExact(total, v.costCents(km));   // ...and Java runs that object's own rule
+            } catch (ArithmeticException e) {
+                throw new IllegalArgumentException("total cost too large", e);
+            }
+        }
+        return total;
     }
 
     /**
@@ -39,11 +44,15 @@ public class FleetService {
      * sorted cheapest first; equal costs -> lower vehicle id first. km <= 0 -> IllegalArgumentException.
      */
     public List<CostQuote> quotes(int km) {
-        // TODO d04-2: reject km <= 0. For every vehicle in repo.all(), build
-        //             new CostQuote(id, plate, kind(), km, costCents(km))  (a private helper is neat for this).
-        // TODO d04-3: sort by costCents ascending, then vehicleId ascending, and return the list.
-        throw new UnsupportedOperationException("d04: build and sort one CostQuote per vehicle");
+        if (km <= 0) throw new IllegalArgumentException("km must be positive");
+        return repo.all().stream()
+                .map(v -> toQuote(v, km))
+                .sorted(Comparator.comparingInt(CostQuote::costCents)
+                        .thenComparingLong(CostQuote::vehicleId))
+                .toList();
     }
 
-    // You may add a private helper here, e.g. private CostQuote toQuote(Vehicle v, int km) { ... }
+    private CostQuote toQuote(Vehicle v, int km) {
+        return new CostQuote(v.getId(), v.getPlate(), v.kind(), km, v.costCents(km));
+    }
 }

@@ -20,16 +20,16 @@ public class LeaderboardService {
 
     /** The leaderboard order as ONE Comparator. */
     public Comparator<Team> leaderboardOrder() {
-        // TODO d05-1: build the comparator from three keys: Team::getPoints, Team::getGoalDifference, Team::getName.
-        //             Careful: .reversed() flips EVERYTHING chained before it. See LESSON.md before you use it.
-        throw new UnsupportedOperationException("d05: build the leaderboard Comparator");
+        return Comparator.comparingInt(Team::getPoints).reversed()
+                .thenComparing(Team::getGoalDifference, Comparator.reverseOrder())
+                .thenComparing(Team::getName);
     }
 
     /** A NEW list with the teams in leaderboard order. `teams` itself is left untouched. */
     public List<Team> sorted(List<Team> teams) {
-        // TODO d05-2: return the teams sorted with leaderboardOrder(), as a NEW list.
-        //             Don't call teams.sort(...): that changes the caller's list (and crashes on List.of(...)).
-        throw new UnsupportedOperationException("d05: return a sorted copy");
+        return teams.stream()
+                .sorted(leaderboardOrder())
+                .toList();
     }
 
     /**
@@ -37,9 +37,11 @@ public class LeaderboardService {
      * each turned into a Standing. minPoints < 0 -> IllegalArgumentException.
      */
     public List<Standing> table(List<Team> teams, int minPoints) {
-        // TODO d05-3: reject minPoints < 0.
-        //             Then: keep teams with points >= minPoints, sort with leaderboardOrder(),
-        //             turn each Team into new Standing(name, points, goalDifference), and return the list.
-        throw new UnsupportedOperationException("d05: filter, sort and map to Standing");
+        if (minPoints < 0) throw new IllegalArgumentException("minPoints cannot be negative");
+        return teams.stream()
+                .filter(t -> t.getPoints() >= minPoints)
+                .sorted(leaderboardOrder())
+                .map(t -> new Standing(t.getName(), t.getPoints(), t.getGoalDifference()))
+                .toList();
     }
 }

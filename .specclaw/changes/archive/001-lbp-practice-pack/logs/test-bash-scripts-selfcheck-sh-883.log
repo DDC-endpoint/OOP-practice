@@ -1,0 +1,55 @@
+PASS  AC-1 drills compile on specclaw/001-lbp-practice-pack
+PASS  AC-1 drills/d01-classes-constructors starter fails 8/8 tests (unsolved, as intended)
+PASS  AC-1 drills/d02-new-subclass starter fails 7/7 tests (unsolved, as intended)
+PASS  AC-1 drills/d03-integer-maths starter fails 24/24 tests (unsolved, as intended)
+PASS  AC-1 drills/d04-polymorphism starter fails 8/8 tests (unsolved, as intended)
+PASS  AC-1 drills/d05-sorting starter fails 8/8 tests (unsolved, as intended)
+PASS  AC-1 drills/d06-records-dtos starter fails 8/8 tests (unsolved, as intended)
+PASS  AC-1 drills/d07-service-validation starter fails 9/9 tests (unsolved, as intended)
+PASS  AC-1 drills/d08-error-handling starter fails 6/6 tests (unsolved, as intended)
+PASS  AC-1 drills/d09-rest-endpoints starter fails 10/10 tests (unsolved, as intended)
+PASS  AC-1 drills/d10-debug-and-check starter fails 3/10 tests (unsolved, as intended)
+PASS  AC-1 drills/d11-stateful-commit starter fails 20/20 tests (unsolved, as intended)
+PASS  AC-1 past-papers/P1-parking compiles
+PASS  AC-1 past-papers/P3-scheduler compiles
+PASS  AC-1 past-papers/P2-drone compiles
+PASS  AC-1 mock-papers/M1-courier compiles
+PASS  solutions contains specclaw/001-lbp-practice-pack
+PASS  AC-2 every drill test passes on solutions
+PASS  AC-3 m1 solution scores 100/100
+PASS  AC-3 m1 untouched starter scores 0/100 (≤ 20)
+PASS  AC-3 p1 solution scores 100/100
+PASS  AC-3 p1 untouched starter scores 4/100 (≤ 20)
+PASS  AC-3 p2 solution scores 100/100
+PASS  AC-3 p2 untouched starter scores 4/100 (≤ 20)
+PASS  AC-3 p3 solution scores 100/100
+PASS  AC-3 p3 untouched starter scores 4/100 (≤ 20)
+PASS  AC-10 solutions differs only in src/main
+PASS  AC-8 drills/d01-classes-constructors/LESSON.md sections ok (8 details blocks)
+PASS  AC-8 drills/d02-new-subclass/LESSON.md sections ok (8 details blocks)
+PASS  AC-8 drills/d03-integer-maths/LESSON.md sections ok (8 details blocks)
+PASS  AC-8 drills/d04-polymorphism/LESSON.md sections ok (10 details blocks)
+PASS  AC-8 drills/d05-sorting/LESSON.md sections ok (9 details blocks)
+PASS  AC-8 drills/d06-records-dtos/LESSON.md sections ok (10 details blocks)
+PASS  AC-8 drills/d07-service-validation/LESSON.md sections ok (9 details blocks)
+PASS  AC-8 drills/d08-error-handling/LESSON.md sections ok (10 details blocks)
+PASS  AC-8 drills/d09-rest-endpoints/LESSON.md sections ok (10 details blocks)
+PASS  AC-8 drills/d10-debug-and-check/LESSON.md sections ok (10 details blocks)
+PASS  AC-8 drills/d11-stateful-commit/LESSON.md sections ok (11 details blocks)
+PASS  AC-8 papers/d01.md front matter ok
+PASS  AC-8 papers/d02.md front matter ok
+PASS  AC-8 papers/d03.md front matter ok
+PASS  AC-8 papers/d04.md front matter ok
+PASS  AC-8 papers/d05.md front matter ok
+PASS  AC-8 papers/d06.md front matter ok
+PASS  AC-8 papers/d07.md front matter ok
+PASS  AC-8 papers/d08.md front matter ok
+PASS  AC-8 papers/d09.md front matter ok
+PASS  AC-8 papers/d10.md front matter ok
+PASS  AC-8 papers/d11.md front matter ok
+PASS  AC-8 papers/m1.md front matter ok
+PASS  AC-8 papers/p1.md front matter ok
+PASS  AC-8 papers/p2.md front matter ok
+PASS  AC-8 papers/p3.md front matter ok
+
+SELFCHECK OK

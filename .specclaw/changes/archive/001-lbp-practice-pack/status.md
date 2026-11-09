@@ -15,6 +15,7 @@
 | Build | ✅ Done |  |
 | Verify | ✅ Passed | PASS |
 | PR | ✅ Raised | https://github.com/DDC-endpoint/OOP-practice/pull/1 |
+| Archived | ✅ Done |  |
 
 ## Task Progress
 

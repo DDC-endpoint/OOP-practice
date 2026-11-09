@@ -22,4 +22,4 @@ A practice pack for the 5COSC019W OOP Lab-Based Practical (LBP): a 100-minute ti
 - Section B checks run as `@SpringBootTest(webEnvironment = RANDOM_PORT)` + `TestRestTemplate`. The IntelliJ HTTP Client is Ultimate-only.
 
 ## Remote
-- Private GitHub repo `OOP-practice` (account `EnderGuardian25`), with branches `main` and `solutions`.
+- Private GitHub repo `OOP-practice` (account `DDC-endpoint` (keyring label EnderGuardian25)), with branches `main` and `solutions`.

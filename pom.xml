@@ -31,5 +31,7 @@
     <module>drills/d07-service-validation</module>
     <module>drills/d08-error-handling</module>
     <module>drills/d09-rest-endpoints</module>
+    <module>drills/d10-debug-and-check</module>
+    <module>drills/d11-stateful-commit</module>
   </modules>
 </project>

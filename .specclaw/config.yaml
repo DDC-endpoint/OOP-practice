@@ -58,7 +58,7 @@ context:
 
 # Build settings
 build:
-  test_command: ""                 # Fast tier: unit/integration. e.g., "npm test", "pytest"
+  test_command: "bash scripts/selfcheck.sh" # Fast tier: unit/integration. e.g., "npm test", "pytest"
   e2e_command: ""                  # Slow tier: browser/e2e. e.g., "npx playwright test"
                                    # Run separately from test_command, per verify.e2e below.
                                    # Absent or empty → no e2e tier, behaviour unchanged.
@@ -254,7 +254,7 @@ pr:
   # no finding attached.
   audit_undeclared_threshold: 3
 
-  test_policy: ""   # Set on first `specclaw pr` run. Options: none | unit | e2e | both
+  test_policy: "unit"   # Set on first `specclaw pr` run. Options: none | unit | e2e | both
                     # none  — no test checks before PR creation
                     # unit  — requires unit test evidence in verify-report + build.test_command set
                     # e2e   — requires e2e test evidence in verify-report + build.test_command set

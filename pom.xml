@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <!-- Aggregator: open this folder in IntelliJ to get every drill in one window. -->
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.3.5</version>
+    <relativePath/>
+  </parent>
+  <groupId>edu.practice</groupId>
+  <artifactId>oop-practice</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  <name>OOP practice drills</name>
+
+  <properties>
+    <java.version>17</java.version>
+  </properties>
+
+  <modules>
+    <!-- drills are added here as they are built -->
+    <module>drills/d01-classes-constructors</module>
+    <module>drills/d02-new-subclass</module>
+    <module>drills/d03-integer-maths</module>
+    <module>drills/d04-polymorphism</module>
+    <module>drills/d05-sorting</module>
+    <module>drills/d06-records-dtos</module>
+    <module>drills/d07-service-validation</module>
+    <module>drills/d08-error-handling</module>
+    <module>drills/d09-rest-endpoints</module>
+    <module>drills/d10-debug-and-check</module>
+    <module>drills/d11-stateful-commit</module>
+  </modules>
+</project>

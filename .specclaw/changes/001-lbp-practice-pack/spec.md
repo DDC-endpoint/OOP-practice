@@ -13,7 +13,7 @@ A practice repo for the 5COSC019W OOP Lab-Based Practical. It teaches each skill
 ### Functional Requirements
 
 - **FR-1 Drills.** Eleven drills, `drills/d01-*` … `drills/d11-*`, each a Maven module of the root aggregator, covering the skills in `docs/design.md` § Drill list, in that order. Each drill has:
-  - `LESSON.md` with exactly these sections: `## The idea`, `## Worked example`, `## Your task`, `## Hints`. Hints use `<details>` blocks, from gentle to near-answer, at least 3.
+  - `LESSON.md` with exactly these sections: `## The idea`, `## Worked example`, `## Your task`, `## Hints`, `## Viva questions` (3–5 questions an examiner might ask about this skill, each with a short model answer in a `<details>` block; the LBP is viva-verified). Hints use `<details>` blocks, from gentle to near-answer, at least 3.
   - A starter under `src/main/java/edu/practice/dNN/...` using the LBP package layout (`model / dto / repo / service / controller / error`, only the packages the drill needs). TODO bodies throw `UnsupportedOperationException("dNN: <what to do>")`.
   - Marking tests under `src/test/java/...`, runnable from IntelliJ or `mvnw -pl drills/dNN-* test`.
 - **FR-2 Mock paper M1.** `mock-papers/M1-courier/` is a standalone Spring Boot project (its own `pom.xml` and wrapper) with a new fictional "Courier Parcel Pricing & Dispatch" scenario. It is in the exact LBP format: Task 1 (18), Task 2 (22), Task 3 (20), Task 4 (20), Section B (six checks, 20). It must exercise every skill d01–d10 teaches: a given subclass to finish, a new subclass to create, overflow-safe integer maths with ceiling rounding, polymorphic processing with a multi-key sort, greedy selection within a budget, validation, 400/404/409 via `ApiError`, a `@RequestParam` with a default, `@PathVariable`, `@RequestBody`, and 201 Created. The paper text is at `mock-papers/M1-courier/PAPER.md`.
@@ -29,7 +29,7 @@ A practice repo for the 5COSC019W OOP Lab-Based Practical. It teaches each skill
 - **FR-6 Solutions branch.** The `solutions` branch is `main` plus completed code for every drill, M1, P1, P2 and P3. `main` never contains solution bodies.
 - **FR-7 Papers for the site.** `papers/<id>.md` exists for each drill (`d01`…`d11`), `m1`, `p1`, `p2` and `p3`. Each has YAML front matter `id, module: OOP, kind: drill|mock|past-paper, title, difficulty: 1-5, timeMinutes, tasks: [{name, marks}]`, followed by the brief text.
 - **FR-8 README.** The root `README.md` covers clone, open and run on any device (IntelliJ Community, JDK 17), how to run a drill's tests, how to attempt and mark a paper, how to compare with `solutions` (`git diff main solutions -- <path>`), and a day-by-day order up to the LBP.
-- **FR-9 Remote.** A private GitHub repo `EnderGuardian25/OOP-practice` with `main` and `solutions` pushed. Push after each wave, so the student can start on d01–d03 early.
+- **FR-9 Remote.** A private GitHub repo `DDC-endpoint/OOP-practice` with `main` and `solutions` pushed. Push after each wave, so the student can start on d01–d03 early.
 - **FR-10 Self-check.** `scripts/selfcheck.sh` checks the whole pack in one command (see AC-1 to AC-3). `.specclaw/config.yaml` `build.test_command` points to it.
 
 ### Non-Functional Requirements
@@ -49,7 +49,7 @@ A practice repo for the 5COSC019W OOP Lab-Based Practical. It teaches each skill
 - [ ] **AC-5** Hard-coded answers fail. Every behavioural rule is checked with at least two inputs, and at least one of them is not shown in the lesson or paper.
 - [ ] **AC-6** Where a paper or drill forbids type checks ("Do not use instanceof"), a test scans the named source file and fails on `instanceof` or `getClass()`.
 - [ ] **AC-7** Classes the student must create (for example a second subclass) are reached through a test helper `Reflect` (reflection with a friendly "Create class X in package Y" failure). Starters and tests therefore compile before the class exists, and one missing class costs only its own marks.
-- [ ] **AC-8** Every drill's `LESSON.md` has the four required sections and at least 3 hints. Every `papers/*.md` front matter parses as YAML, and has all FR-7 keys and correct task marks.
+- [ ] **AC-8** Every drill's `LESSON.md` has the five required sections (incl. ≥3 viva questions) and at least 3 hints. Every `papers/*.md` front matter parses as YAML, and has all FR-7 keys and correct task marks.
 - [ ] **AC-9** The GitHub repo exists, is **private**, and has `main` and `solutions` matching local.
 - [ ] **AC-10** `git diff main solutions --stat` touches only `src/main/**` files (and solution notes). Lessons, tests and marking files are identical on both branches.
 
@@ -65,10 +65,14 @@ A practice repo for the 5COSC019W OOP Lab-Based Practical. It teaches each skill
 ## Dependencies
 
 - JDK 17 (installed). The Maven 3.9.9 distribution is downloaded once to generate the wrapper.
-- `gh` authenticated as `EnderGuardian25` with `repo` scope (verified).
+- `gh` authenticated; actual login `DDC-endpoint` (keyring label EnderGuardian25) with `repo` scope (verified).
 - The source papers and starters in `D:\year-2-prep\OOP\05_LBP_Practice_Papers\`.
 
 ## Notes
 
+- Added 2026-11-09 from the student's friend's "OOP Lab Exam Hub" (context only, not copied): viva emphasis → `## Viva questions` per lesson; LBP qualifying mark is 30; LBP is in the Week 9 seminar.
+
 - Assumption: the student uses IntelliJ IDEA Community, so no HTTP Client is available. Section B is covered by tests, and each paper also gets a `requests.http` as a bonus for Ultimate users.
 - d11 stays one drill. Splitting it is unnecessary at this size (open question resolved).
+
+- AC-6 refinement (T7): for P1/P2 the scan allows `getClass().getSimpleName()` used only to label a type in a given DTO (Quote.passType, PlanLine.type); it fails on `instanceof`, any other `getClass()` use, and casts / `.class` of concrete subclasses.

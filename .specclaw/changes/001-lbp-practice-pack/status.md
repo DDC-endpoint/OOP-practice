@@ -12,8 +12,9 @@
 | Spec | ✅ Done |  |
 | Design | ✅ Done |  |
 | Tasks | ✅ Done |  |
-| Build | 🔨 In-progress |  |
-| Verify | ⏳ Pending | |
+| Build | ✅ Done |  |
+| Verify | ✅ Passed | PASS |
+| PR | ✅ Raised | https://github.com/DDC-endpoint/OOP-practice/pull/1 |
 
 ## Task Progress
 

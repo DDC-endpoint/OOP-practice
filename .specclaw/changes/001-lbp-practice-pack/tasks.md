@@ -89,7 +89,7 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
 
 ### Wave 4 — Papers
 
-- [~] `T6` — Mock paper M1 courier
+- [x] `T6` — Mock paper M1 courier
   - Files: `mock-papers/M1-courier/**` (standalone project + wrapper + `PAPER.md` + `requests.http`), `marking/m1/**`, `papers/m1.md`
   - Estimate: large
   - Kind: impl

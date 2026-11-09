@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
  public MissionRepository(){
   map.put(101L,new GroundMission(101,12,3,true));
   map.put(102L,new GroundMission(102,4,2,false));
-  // TODO after Task 2: seed AirMission(103,8,1,3,true).
+  map.put(103L,new AirMission(103,8,1,3,true));
  }
  public Collection<DispatchMission> all(){return List.copyOf(map.values());}
  public DispatchMission find(long id){return map.get(id);}

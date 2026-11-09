@@ -5,6 +5,21 @@ import java.util.*;import org.springframework.web.bind.annotation.*;
  private final SchedulerService service;
  public SchedulerController(SchedulerService service){this.service=service;}
  @GetMapping public Collection<Workload> all(){return service.all();}
- // TODO Task 4: GET /{id}/urgency?nowTick=..., GET /ranked?nowTick=...,
- // POST /preview, POST /commit and GET /reservations. Keep controller thin.
+
+ @GetMapping("/{id}/urgency")
+ public Map<String,Object> urgency(@PathVariable long id,@RequestParam int nowTick){
+  return Map.of("id",id,"nowTick",nowTick,"urgency",service.urgency(id,nowTick));
+ }
+
+ @GetMapping("/ranked")
+ public List<Workload> ranked(@RequestParam int nowTick){return service.ranked(nowTick);}
+
+ @PostMapping("/preview")
+ public SchedulePlan preview(@RequestBody PlanRequest request){return service.preview(request);}
+
+ @PostMapping("/commit")
+ public SchedulePlan commit(@RequestBody CommitRequest request){return service.commit(request);}
+
+ @GetMapping("/reservations")
+ public List<Reservation> reservations(){return service.reservations();}
 }

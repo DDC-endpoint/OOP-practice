@@ -5,6 +5,19 @@ import java.util.*;import org.springframework.web.bind.annotation.*;import org.s
  private final DispatchService service;
  public DispatchController(DispatchService service){this.service=service;}
  @GetMapping public Collection<DispatchMission> all(){return service.all();}
- // TODO Task 4: GET /{id}/energy; POST /air (HTTP 201);
- // GET /plan?capacity=...&urgentOnly=false; delegate all logic to service.
+
+ @GetMapping("/{id}/energy")
+ public Map<String,Object> energy(@PathVariable long id){
+  return Map.of("id",id,"energyUnits",service.energy(id));
+ }
+
+ @PostMapping("/air")
+ public ResponseEntity<DispatchMission> addAir(@RequestBody NewAirMission body){
+  return ResponseEntity.status(HttpStatus.CREATED).body(service.addAir(body));
+ }
+
+ @GetMapping("/plan")
+ public DispatchPlan plan(@RequestParam int capacity,@RequestParam(defaultValue="false") boolean urgentOnly){
+  return service.plan(capacity,urgentOnly);
+ }
 }

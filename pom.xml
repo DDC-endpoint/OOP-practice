@@ -25,6 +25,9 @@
     <module>drills/d01-classes-constructors</module>
     <module>drills/d02-new-subclass</module>
     <module>drills/d03-integer-maths</module>
+    <module>drills/d04-polymorphism</module>
+    <module>drills/d05-sorting</module>
+    <module>drills/d06-records-dtos</module>
     <module>drills/d07-service-validation</module>
     <module>drills/d08-error-handling</module>
     <module>drills/d09-rest-endpoints</module>

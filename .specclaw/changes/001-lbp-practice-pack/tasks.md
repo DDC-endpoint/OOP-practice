@@ -24,7 +24,7 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
 
 ### Wave 1 — Scaffold and tooling
 
-- [ ] `T1` — Repo scaffold, wrapper, Reflect helper, marking runner, selfcheck, GitHub remote
+- [x] `T1` — Repo scaffold, wrapper, Reflect helper, marking runner, selfcheck, GitHub remote
   - Files: `pom.xml`, `mvnw`, `mvnw.cmd`, `.mvn/wrapper/maven-wrapper.properties`, `.gitignore`, `marking/Mark.java`, `marking/mark.sh`, `marking/mark.cmd`, `scripts/selfcheck.sh`, `templates/Reflect.java` (source copied into each project), `.specclaw/config.yaml`
   - Estimate: medium
   - Kind: config
@@ -53,7 +53,7 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
   - Kind: impl
   - Depends: T1
   - Notes:
-    - Scenarios and skills as in the design's drill line-up. Each `LESSON.md` has `## The idea`, `## Worked example` (using a *different* mini-example from the task), `## Your task`, `## Hints` (≥3 `<details>`).
+    - Scenarios and skills as in the design's drill line-up. Each `LESSON.md` has `## The idea`, `## Worked example` (using a *different* mini-example from the task), `## Your task`, `## Hints` (≥3 `<details>`), `## Viva questions` (3–5, answers in `<details>`).
     - d02: the student creates `edu.practice.d02.model.Annual`, and its tests reach it only through `Reflect`.
     - d03 tests must include: exact-boundary values (100 → 1 block, 101 → 2), the tier boundary, 0 and negative → `IllegalArgumentException`, and `Integer.MAX_VALUE` input → `IllegalArgumentException` (overflow), never a wrapped negative.
     - Every rule is tested with ≥2 inputs, at least one not in the lesson (AC-5).

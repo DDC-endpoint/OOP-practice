@@ -43,11 +43,11 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
       Steps for parts not yet built are skipped with a "SKIP (not built)" line.
     - Set `build.test_command: "bash scripts/selfcheck.sh"`.
     - Create branch `solutions` from the first commit.
-    - `gh repo create EnderGuardian25/OOP-practice --private --source . --push`, then push `solutions`.
+    - `gh repo create DDC-endpoint/OOP-practice --private --source . --push`, then push `solutions`.
 
 ### Wave 2 — First drills (student starts here)
 
-- [ ] `T2` — Drills d01 classes-constructors, d02 new-subclass, d03 integer-maths
+- [x] `T2` — Drills d01 classes-constructors, d02 new-subclass, d03 integer-maths
   - Files: `drills/d01-classes-constructors/**`, `drills/d02-new-subclass/**`, `drills/d03-integer-maths/**`, `papers/d01.md`, `papers/d02.md`, `papers/d03.md`, `pom.xml` (modules)
   - Estimate: large
   - Kind: impl

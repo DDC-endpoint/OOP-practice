@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "sig": "1196118953 4218",
+  "tier": "standard",
+  "tier_source": "classifier",
+  "rationale": "Greenfield repo with no existing subsystem edited and every file additive and revertible by deleting the repo, though the papers/*.md front-matter format is a contract a future site will parse, and the open questions (d11 split, marking-script runtime) are builder-deferred rather than design-changing.",
+  "domains": [],
+  "seats": [
+    {"role": "party-po", "model": "sonnet"},
+    {"role": "party-architect", "model": "opus"},
+    {"role": "party-ba", "model": "sonnet"}
+  ],
+  "dropped": []
+}

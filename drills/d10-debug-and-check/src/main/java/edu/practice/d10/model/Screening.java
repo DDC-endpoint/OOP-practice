@@ -37,7 +37,7 @@ public class Screening {
     public int surchargeBlocks() {
         int over = runtimeMinutes - INCLUDED_MINUTES;
         if (over <= 0) return 0;
-        return over / BLOCK_MINUTES + 1;
+        return (over - 1) / BLOCK_MINUTES + 1;
     }
 
     /** The price of one seat: the base price plus 150 cents per surcharge block. */

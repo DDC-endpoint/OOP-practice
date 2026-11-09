@@ -41,43 +41,64 @@ public class BookingService {
 
     /** Do the half-open intervals [aStart, aEnd) and [bStart, bEnd) share at least one hour? */
     public static boolean overlaps(int aStart, int aEnd, int bStart, int bEnd) {
-        // TODO d11-1: ONE line. [9,11) and [11,12) only touch, so they do NOT overlap.
-        //             [9,11) and [10,12) share hour 10, so they DO.
-        throw new UnsupportedOperationException("d11: write overlaps(...)");
+        return aStart < bEnd && bStart < aEnd;
     }
 
     /** Every confirmed booking: room A to Z, then earliest start first, then lowest id first. */
     public List<Booking> bookings() {
-        // TODO d11-2: sort repo.all() with a Comparator chain (d05): room, then start, then id. Return the sorted list.
-        throw new UnsupportedOperationException("d11: write bookings()");
+        return repo.all().stream()
+                .sorted(Comparator.comparing(Booking::room)
+                        .thenComparingInt(Booking::start)
+                        .thenComparingLong(Booking::id))
+                .toList();
     }
 
     /** What WOULD happen to these requests, in order, if they were committed now. Changes nothing. */
     public synchronized Plan preview(List<BookingRequest> requests) {
-        // TODO d11-3:
-        //   1. validate(requests);   (given, below: throws for 400 / 404)
-        //   2. Read the confirmed bookings: repo.all()
-        //   3. Make two NEW local lists: accepted (BookingRequest) and rejected (Rejection).
-        //   4. For each request r, in order:
-        //        - same room AND overlaps a confirmed booking  -> rejected, reason CLASHES_WITH_CONFIRMED
-        //        - else same room AND overlaps an ACCEPTED one  -> rejected, reason CLASHES_WITH_EARLIER_REQUEST
-        //        - else                                         -> accepted
-        //   5. return new Plan(accepted, rejected)
-        //   Never call repo.save(...) or repo.nextId() here: a preview must change NOTHING.
-        throw new UnsupportedOperationException("d11: write preview(...)");
+        validate(requests);
+        List<Booking> confirmed = repo.all();
+        List<BookingRequest> accepted = new ArrayList<>();
+        List<Rejection> rejected = new ArrayList<>();
+        for (BookingRequest r : requests) {
+            boolean clashesWithConfirmed = confirmed.stream()
+                    .anyMatch(b -> b.room().equals(r.room()) && overlaps(r.start(), r.end(), b.start(), b.end()));
+            boolean clashesWithEarlier = accepted.stream()
+                    .anyMatch(a -> a.room().equals(r.room()) && overlaps(r.start(), r.end(), a.start(), a.end()));
+            if (clashesWithConfirmed) {
+                rejected.add(new Rejection(r.room(), r.start(), r.end(), CLASHES_WITH_CONFIRMED));
+            } else if (clashesWithEarlier) {
+                rejected.add(new Rejection(r.room(), r.start(), r.end(), CLASHES_WITH_EARLIER_REQUEST));
+            } else {
+                accepted.add(r);
+            }
+        }
+        return new Plan(List.copyOf(accepted), List.copyOf(rejected));
     }
 
     /** Saves the accepted bookings, once per key. A retry with the same key and request gets the stored result back. */
     public synchronized CommitResult commit(CommitRequest request) {
-        // TODO d11-4:
-        //   1. A null request, or a null/blank key -> throw new IllegalArgumentException("key is required")
-        //   2. Has this key been used before (requestsByKey)?
-        //        - with an EQUAL request (records: use equals) -> return the STORED result. Decide nothing, save nothing.
-        //        - with a different request                   -> throw new CommitConflictException(key)   (409)
-        //   3. A new key: Plan plan = preview(request.bookings());   (validates, decides, changes nothing)
-        //   4. Turn each accepted request into new Booking(repo.nextId(), room, start, end), and save them all.
-        //   5. Build the CommitResult(key, booked, plan.rejected()), store request AND result under the key, return it.
-        throw new UnsupportedOperationException("d11: write commit(...)");
+        if (request == null || request.key() == null || request.key().isBlank()) {
+            throw new IllegalArgumentException("key is required");
+        }
+        CommitRequest earlier = requestsByKey.get(request.key());
+        if (earlier != null) {
+            if (earlier.equals(request)) {
+                return resultsByKey.get(request.key());
+            }
+            throw new CommitConflictException(request.key());
+        }
+        Plan plan = preview(request.bookings());
+        List<Booking> booked = new ArrayList<>();
+        for (BookingRequest r : plan.accepted()) {
+            booked.add(new Booking(repo.nextId(), r.room(), r.start(), r.end()));
+        }
+        for (Booking b : booked) {
+            repo.save(b);
+        }
+        CommitResult result = new CommitResult(request.key(), List.copyOf(booked), plan.rejected());
+        requestsByKey.put(request.key(), request);
+        resultsByKey.put(request.key(), result);
+        return result;
     }
 
     /**

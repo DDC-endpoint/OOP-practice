@@ -43,7 +43,7 @@ public class ScreeningService {
         checkSeats(seats);
         return repo.all().stream()
                 .map(s -> toQuote(s, seats))
-                .sorted(Comparator.comparingInt(Quote::totalCents).thenComparingLong(Quote::screeningId).reversed())
+                .sorted(Comparator.comparingInt(Quote::totalCents).reversed().thenComparingLong(Quote::screeningId))
                 .toList();
     }
 

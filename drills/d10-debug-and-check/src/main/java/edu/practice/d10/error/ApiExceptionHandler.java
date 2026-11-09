@@ -15,6 +15,7 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiError("BAD_REQUEST", e.getMessage()));
     }
 
+    @ExceptionHandler(ScreeningNotFoundException.class)
     public ResponseEntity<ApiError> notFound(ScreeningNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiError("NOT_FOUND", e.getMessage()));
     }

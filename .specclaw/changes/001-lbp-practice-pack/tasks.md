@@ -61,7 +61,7 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
 
 ### Wave 3 — Remaining core drills
 
-- [ ] `T3` — Drills d04 polymorphism, d05 sorting, d06 records-dtos
+- [~] `T3` — Drills d04 polymorphism, d05 sorting, d06 records-dtos
   - Files: `drills/d04-polymorphism/**`, `drills/d05-sorting/**`, `drills/d06-records-dtos/**`, `papers/d04.md`, `papers/d05.md`, `papers/d06.md`, `pom.xml`
   - Estimate: large
   - Kind: impl
@@ -69,7 +69,7 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
   - Notes:
     - d04 includes the source-scan test (no `instanceof` / `getClass()` in the service file; AC-6).
     - d05 tests tie-breaks explicitly: equal primary key → secondary key → tertiary key.
-- [ ] `T4` — Drills d07 service-validation, d08 error-handling, d09 rest-endpoints
+- [~] `T4` — Drills d07 service-validation, d08 error-handling, d09 rest-endpoints
   - Files: `drills/d07-service-validation/**`, `drills/d08-error-handling/**`, `drills/d09-rest-endpoints/**`, `papers/d07.md`, `papers/d08.md`, `papers/d09.md`, `pom.xml`
   - Estimate: large
   - Kind: impl
@@ -98,7 +98,7 @@ Builds use `JAVA_HOME="C:/Program Files/Java/jdk-17"`.
     - Must satisfy FR-2. Write `PAPER.md` in the LBP paper structure (instructions, scenario, files supplied, marking table, Tasks 1–4 with per-line marks, illustrative calculations, REST operations, Section B six checks, submission).
     - The starter mirrors the LBP starter style: an abstract parent, one incomplete subclass, a repo with a seed TODO, DTO records, a service and controller with TODOs, and an `ApiExceptionHandler` with a TODO.
     - Marking tests: `marking/m1/src/test/java/marking/{Task1Test..Task4Test,SectionBTest,Reflect}.java`. Their marks match `PAPER.md` line by line.
-- [ ] `T7` — P1–P3 projects and marking
+- [~] `T7` — P1–P3 projects and marking
   - Files: `past-papers/P1-parking/**`, `past-papers/P2-drone/**`, `past-papers/P3-scheduler/**` (unzipped from `D:\year-2-prep\OOP\05_LBP_Practice_Papers\*_Starter.zip`, plus wrapper and `PAPER.md` converted from the docx), `marking/p1/**`, `marking/p2/**`, `marking/p3/**`, `papers/p1.md`, `papers/p2.md`, `papers/p3.md`
   - Estimate: large
   - Kind: impl

@@ -1,6 +1,6 @@
 {
   "change": "001-lbp-practice-pack",
-  "phase": "pr",
+  "phase": "archived",
   "branch": "specclaw/001-lbp-practice-pack",
   "size": "architectural",
   "phases": {
@@ -10,6 +10,7 @@
     "tasks": {"status":"done","at":"2026-11-09T15:27:40Z"},
     "build": {"status":"done","at":"2026-11-09T17:22:52Z"},
     "verify": {"status":"passed","at":"2026-11-09T17:49:38Z","verdict":"PASS"},
-    "pr": {"status":"raised","at":"2026-11-09T17:52:32Z","url":"https://github.com/DDC-endpoint/OOP-practice/pull/1"}
+    "pr": {"status":"raised","at":"2026-11-09T17:52:32Z","url":"https://github.com/DDC-endpoint/OOP-practice/pull/1"},
+    "archived": {"status":"done","at":"2026-11-09T17:56:43Z"}
   }
 }

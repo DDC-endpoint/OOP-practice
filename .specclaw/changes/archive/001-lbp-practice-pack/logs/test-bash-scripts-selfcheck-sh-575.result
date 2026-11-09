@@ -1,0 +1,7 @@
+exit=1
+duration_s=344
+log=.specclaw/changes/001-lbp-practice-pack/logs/test-bash-scripts-selfcheck-sh-575.log
+head=1bdf9647b1287ef97bc7d6fcaf0662c396015cdc
+dirty=true
+cmd=bash scripts/selfcheck.sh
+interrupted=false

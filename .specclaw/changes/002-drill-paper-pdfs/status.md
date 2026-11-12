@@ -14,6 +14,7 @@
 | Tasks | ✅ Done |  |
 | Build | ✅ Done |  |
 | Verify | ✅ Passed | PASS |
+| PR | ✅ Raised | https://github.com/DDC-endpoint/OOP-practice/pull/2 |
 
 ## Task Progress
 

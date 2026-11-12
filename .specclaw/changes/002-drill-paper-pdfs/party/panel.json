@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "sig": "2806300528 3208",
+  "tier": "deep",
+  "tier_source": "classifier",
+  "rationale": "The renderer choice is still open and changes the file list: the Node option adds a devDependency tree and lockfile under scripts/pdf/, while the dependency-free Chrome option adds none, so the unresolved question alone earns deep. Domains are empty because the rendered input is the student's own trusted Markdown and no gate, credential, or permission changes.",
+  "domains": [],
+  "seats": [
+    {"role": "party-po", "model": "sonnet"},
+    {"role": "party-architect", "model": "opus"},
+    {"role": "party-ba", "model": "sonnet"},
+    {"role": "party-security", "model": "opus"},
+    {"role": "party-visionary", "model": "fable"}
+  ],
+  "dropped": []
+}

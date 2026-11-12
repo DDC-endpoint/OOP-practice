@@ -1,0 +1,17 @@
+{
+  "name": "oop-practice-pdfs",
+  "private": true,
+  "type": "module",
+  "description": "Renders drill LESSON.md / PAPER.md to PDF. Run via scripts/build-pdfs.sh or scripts\build-pdfs.cmd.",
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "node check.mjs"
+  },
+  "dependencies": {
+    "highlight.js": "11.12.0",
+    "js-yaml": "5.5.0",
+    "marked": "18.2.0",
+    "pdfjs-dist": "6.5.438",
+    "puppeteer-core": "25.17.0"
+  }
+}

@@ -79,6 +79,21 @@ git diff HEAD solutions -- past-papers/P1-parking
 ```
 Don't switch to the `solutions` branch while you work. Just diff against it.
 
+## 4 · Read on a tablet or on paper (PDFs)
+
+Every drill folder also has two PDFs next to `LESSON.md`:
+- **`LESSON.pdf`**: the idea, worked example, task and viva questions. No hints and no answers, so nothing is spoiled while you work.
+- **`HINTS.pdf`**: the hints, numbered in order, then the viva answers. Open it only when you're stuck, one hint at a time.
+
+Each paper folder has a **`PAPER.pdf`** next to `PAPER.md`.
+
+The Markdown is the source. If you edit a lesson or paper, rebuild the PDFs. This needs Node 18+ and Chrome or Edge. The first run installs its packages into `scripts/pdf/`:
+```bash
+bash scripts/build-pdfs.sh            # Windows: scripts\build-pdfs.cmd
+bash scripts/build-pdfs.sh d04        # just one folder
+```
+It also checks that no hint or answer has leaked into a `LESSON.pdf`.
+
 ## Plan up to the LBP (Week 9 seminar)
 
 | Day | Do | Time |
@@ -100,5 +115,5 @@ past-papers/     P1–P3 official practice starters + PAPER.md
 mock-papers/     M1 new mock + PAPER.md + requests.http
 marking/         Mark.java + marking tests for each paper (don't open before sitting it!)
 papers/          every lesson and paper as Markdown with front matter (for the study site)
-scripts/         selfcheck.sh (checks the whole pack), sync-papers.sh
+scripts/         selfcheck.sh (checks the whole pack), sync-papers.sh, build-pdfs.sh/.cmd (the PDFs)
 ```

@@ -1,0 +1,184 @@
+/* Print stylesheet for the drill/paper PDFs. Screen-first: light page, dark code panels. */
+:root {
+  --ink: #1d2230;
+  --muted: #5b6475;
+  --rule: #e3e6ec;
+  --paper: #ffffff;
+  --tint: #f5f6f9;
+  --accent: #c2410c;       /* burnt orange: numbers, kickers */
+  --accent-soft: #fff4ec;
+  --link: #1d4ed8;
+  --code-bg: #12161f;
+  --code-ink: #e6e9ef;
+  --inline-bg: #eef0f4;
+  --hint: #0f766e;         /* teal: hint cards */
+  --hint-soft: #effaf8;
+  --viva: #6d28d9;         /* violet: viva cards */
+  --viva-soft: #f6f2fe;
+}
+
+@page { size: A4; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 11.5pt;
+  line-height: 1.6;
+}
+main { max-width: 100%; }
+
+/* ---------- title block ---------- */
+header.title {
+  border-bottom: 3px solid var(--ink);
+  padding-bottom: 14pt;
+  margin-bottom: 20pt;
+}
+.kicker {
+  color: var(--accent);
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+header.title h1 {
+  font-size: 22pt;
+  line-height: 1.2;
+  margin: 4pt 0 8pt;
+  letter-spacing: -.01em;
+}
+.facts { display: flex; gap: 18pt; color: var(--muted); font-size: 10pt; margin-bottom: 10pt; }
+.dots { display: inline-flex; gap: 3px; margin-left: 4px; vertical-align: middle; }
+.dots i { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--accent); }
+.dots i.on { background: var(--accent); }
+table.marks { width: auto; min-width: 60%; margin: 6pt 0 0; font-size: 9.5pt; }
+table.marks td.m, table.marks th:last-child { text-align: right; width: 5.5em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+table.marks tr.total td { font-weight: 700; border-top: 2px solid var(--ink); }
+
+/* ---------- headings & text ---------- */
+h1, h2, h3, h4 { color: var(--ink); line-height: 1.25; break-after: avoid; page-break-after: avoid; }
+h1 { font-size: 18pt; margin: 18pt 0 8pt; }
+h2 {
+  font-size: 15pt;
+  margin: 26pt 0 10pt;
+  padding-bottom: 5pt;
+  border-bottom: 1px solid var(--rule);
+}
+h3 { font-size: 12.5pt; margin: 16pt 0 6pt; }
+h4 { font-size: 11.5pt; margin: 12pt 0 4pt; }
+.new-page { break-before: page; page-break-before: always; margin-top: 0; }
+p { margin: 0 0 9pt; orphans: 3; widows: 3; }
+ul, ol { margin: 0 0 10pt; padding-left: 20pt; }
+li { margin: 3pt 0; }
+li > p { margin: 0 0 4pt; }
+a { color: var(--link); text-decoration: none; }
+strong, b { font-weight: 650; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 18pt 0; }
+
+blockquote {
+  margin: 0 0 14pt;
+  padding: 9pt 13pt;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+}
+blockquote p:last-child { margin-bottom: 0; }
+
+p.aside {
+  color: var(--muted);
+  font-size: 10pt;
+  background: var(--tint);
+  border-radius: 6px;
+  padding: 6pt 10pt;
+}
+
+/* ---------- code ---------- */
+code {
+  font-family: "Cascadia Mono", "Cascadia Code", Consolas, "SF Mono", Menlo, monospace;
+  font-size: .88em;
+}
+:not(pre) > code {
+  background: var(--inline-bg);
+  border-radius: 4px;
+  padding: 1px 4px;
+  white-space: break-spaces;
+}
+pre.code {
+  margin: 4pt 0 14pt;
+  padding: 12pt 14pt;
+  background: var(--code-bg);
+  color: var(--code-ink);
+  border-radius: 8px;
+  font-size: 9.2pt;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+pre.code.has-lang { padding-top: 20pt; }
+pre.code code.hljs { background: transparent; padding: 0; font-size: inherit; color: inherit; display: block; }
+pre.code .lang {
+  float: right; margin: -14pt -4pt 0 8pt; line-height: 1;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 7pt; letter-spacing: .1em; text-transform: uppercase;
+  color: #8b93a5;
+}
+
+/* ---------- tables ---------- */
+table { border-collapse: collapse; width: 100%; margin: 4pt 0 14pt; font-size: 10pt; }
+th, td { border-bottom: 1px solid var(--rule); padding: 5pt 8pt; text-align: left; vertical-align: top; overflow-wrap: break-word; }
+th { white-space: nowrap; }
+th { background: var(--tint); font-weight: 650; }
+tr { break-inside: avoid; page-break-inside: avoid; }
+
+/* ---------- cards (hints, viva answers, any other <details>) ---------- */
+.card {
+  margin: 0 0 14pt;
+  border: 1px solid var(--rule);
+  border-left: 5px solid var(--muted);
+  border-radius: 8px;
+  background: var(--tint);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.card > header {
+  display: flex; align-items: center; gap: 10pt;
+  padding: 8pt 13pt;
+  border-bottom: 1px solid var(--rule);
+}
+.card h3 { margin: 0; font-size: 12pt; }
+.card .num {
+  flex: none;
+  width: 20pt; height: 20pt; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 10pt;
+  background: var(--muted);
+}
+.card-body { padding: 10pt 13pt 2pt; background: #fff; border-radius: 0 0 8px 0; }
+.card.hint { border-left-color: var(--hint); }
+.card.hint > header { background: var(--hint-soft); }
+.card.hint .num { background: var(--hint); }
+.card.viva { border-left-color: var(--viva); }
+.card.viva > header { background: var(--viva-soft); }
+.card.viva .num { background: var(--viva); }
+
+/* ---------- viva question list (lesson) ---------- */
+ol.viva { counter-reset: q; list-style: none; padding-left: 0; }
+ol.viva li {
+  counter-increment: q;
+  padding: 7pt 10pt 7pt 36pt;
+  margin: 0 0 6pt;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  break-inside: avoid;
+}
+ol.viva li::before {
+  content: counter(q);
+  float: left; margin: 1pt 0 0 -26pt;
+  width: 17pt; height: 17pt; border-radius: 50%;
+  background: var(--viva); color: #fff;
+  font-size: 9pt; font-weight: 700; text-align: center; line-height: 17pt;
+}

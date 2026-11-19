@@ -1,7 +1,7 @@
 package edu.practice.courier.controller;
-import edu.practice.courier.service.*;import edu.practice.courier.model.*;import edu.practice.courier.dto.*;
+import edu.practice.courier.service.*;import edu.practice.courier.model.*;
 import java.util.*;import org.springframework.http.*;import org.springframework.web.bind.annotation.*;
-@RestController @RequestMapping("/api/parcels") public class ParcelController {
+@RestController @RequestMapping("/parcels") public class ParcelController {
  private final ParcelService service;
  public ParcelController(ParcelService service){this.service=service;}
  @GetMapping public Collection<Parcel> list(){return service.all();}

@@ -1,0 +1,13 @@
+{
+  "change": "004-m1-exam-conventions-and-guides",
+  "phase": "verify",
+  "branch": "",
+  "size": "architectural",
+  "phases": {
+    "proposal": {"status":"approved","at":"2026-11-19T17:20:20Z"},
+    "spec": {"status":"done","at":"2026-11-19T17:20:50Z"},
+    "design": {"status":"done","at":"2026-11-19T17:20:51Z"},
+    "tasks": {"status":"done","at":"2026-11-19T17:20:51Z"},
+    "verify": {"status":"passed","at":"2026-11-19T20:47:50Z","verdict":"PASS"}
+  }
+}

@@ -1,43 +1,43 @@
-### M1 Courier mock – demo requests (IntelliJ Ultimate HTTP Client). Start CourierApplication first (port 8084).
+### M1 Courier mock – demo requests (IntelliJ Ultimate HTTP Client). Start CourierApplication first (port 8080). Swagger UI: http://localhost:8080/swagger-ui.html.
 
 ### List all parcels
-GET http://localhost:8084/api/parcels
+GET http://localhost:8080/parcels
 
 ### StandardParcel 1 -> 540 pence, priority 1
-GET http://localhost:8084/api/parcels/1/quote
+GET http://localhost:8080/parcels/1/quote
 
 ### ExpressParcel 3 -> 1060 pence, priority 3
-GET http://localhost:8084/api/parcels/3/quote
+GET http://localhost:8080/parcels/3/quote
 
 ### Van at 2000 g -> loaded [3,4,2], skipped [1], 1700 g used, 1840 pence
-GET http://localhost:8084/api/parcels/van?capacityGrams=2000
+GET http://localhost:8080/parcels/van?capacityGrams=2000
 
 ### Van with the default capacity (2000)
-GET http://localhost:8084/api/parcels/van
+GET http://localhost:8080/parcels/van
 
 ### Add a standard parcel -> 201 Created
-POST http://localhost:8084/api/parcels/standard
+POST http://localhost:8080/parcels/standard
 Content-Type: application/json
 
 {"id":5,"trackingCode":"CP-1005","weightGrams":2600,"ratePerBlockPence":150}
 
 ### The new parcel is quoted (900 pence)
-GET http://localhost:8084/api/parcels/5/quote
+GET http://localhost:8080/parcels/5/quote
 
 ### Unknown ID -> 404 NOT_FOUND
-GET http://localhost:8084/api/parcels/999/quote
+GET http://localhost:8080/parcels/999/quote
 
 ### Bad capacity -> 400 BAD_REQUEST
-GET http://localhost:8084/api/parcels/van?capacityGrams=0
+GET http://localhost:8080/parcels/van?capacityGrams=0
 
 ### Invalid body (blank tracking code) -> 400 BAD_REQUEST
-POST http://localhost:8084/api/parcels/standard
+POST http://localhost:8080/parcels/standard
 Content-Type: application/json
 
 {"id":6,"trackingCode":"   ","weightGrams":500,"ratePerBlockPence":100}
 
 ### Duplicate tracking code (case ignored) -> 409 CONFLICT
-POST http://localhost:8084/api/parcels/standard
+POST http://localhost:8080/parcels/standard
 Content-Type: application/json
 
 {"id":7,"trackingCode":"cp-1001","weightGrams":500,"ratePerBlockPence":100}

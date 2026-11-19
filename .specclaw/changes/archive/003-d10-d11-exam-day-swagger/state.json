@@ -1,6 +1,6 @@
 {
   "change": "003-d10-d11-exam-day-swagger",
-  "phase": "verify",
+  "phase": "archived",
   "branch": "specclaw/003-d10-d11-exam-day-swagger",
   "size": "bounded",
   "phases": {
@@ -8,6 +8,7 @@
     "spec": {"status":"done","at":"2026-11-19T16:56:45Z"},
     "tasks": {"status":"done","at":"2026-11-19T16:56:46Z"},
     "build": {"status":"in-progress","at":"2026-11-19T16:57:04Z"},
-    "verify": {"status":"passed","at":"2026-11-19T20:43:20Z","verdict":"PASS"}
+    "verify": {"status":"passed","at":"2026-11-19T20:43:20Z","verdict":"PASS"},
+    "archived": {"status":"done","at":"2026-11-19T22:07:10Z"}
   }
 }

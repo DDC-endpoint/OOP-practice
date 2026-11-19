@@ -1,12 +1,11 @@
 # 🦞 SpecClaw Dashboard
 
 **Project:** OOP-practice
-**Last Updated:** 2026-11-12 17:15 UTC
+**Last Updated:** 2026-11-19 22:07 UTC
 
 ## Active Changes
 
-
-- 🔍 **002-drill-paper-pdfs** ▫ — verify PASS | 4/4 tasks (100%) | 0 failed | 18m
+_No active changes._
 
 ## Pending Proposals
 
@@ -16,9 +15,12 @@ _None._
 
 
 - ✅ **001-lbp-practice-pack**
+- ✅ **002-drill-paper-pdfs**
+- ✅ **003-d10-d11-exam-day-swagger**
+- ✅ **004-m1-exam-conventions-and-guides**
 
 ## Stats
 
-- **Total changes:** 2
-- **Active:** 1
-- **Completed:** 1
+- **Total changes:** 4
+- **Active:** 0
+- **Completed:** 4

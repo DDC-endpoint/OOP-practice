@@ -1,8 +1,11 @@
 # OOP-practice: LBP practice pack
 
-Practice for the **5COSC019W OOP Lab-Based Practical (LBP)**. It's 100 minutes in IntelliJ on a supplied Java 17 / Maven / Spring Boot starter, worth 40% of the module, and you need at least 30 to qualify. The marks are:
-- **Section A:** four coding tasks worth 18, 22, 20 and 20
-- **Section B:** six functional checks on your running app, worth 20
+Practice for the **5COSC019W OOP Lab-Based Practical (LBP)**. It's worth 40% of the module, and you need at least 30 to qualify. The official exam-day instructions say:
+- **120 minutes** in IntelliJ IDEA Ultimate on JDK 25: the first 110 to code and test, the final 10 only to ZIP and upload to Blackboard.
+- **Question 1 – Section A** (Java/OOP) → **Question 2 – Section B** (Spring Boot/REST) → **Section C** (functional verification: the examiner runs your app). The starter includes Swagger UI.
+- Exactly **one** new Java class. Everything else goes under the `// TODO`s.
+
+The practice papers P1–P3 still use the older 100-minute, Section A/B format. **M1** follows the official format. This pack runs on JDK 17 / Spring Boot 3.3; the code you write is the same.
 
 A **viva** follows, where you explain your code.
 
@@ -16,6 +19,18 @@ The real LBP follows the **official exam-day instructions**: 120 minutes (the fi
 
 - **[Exam-day guide](guides/EXAM-DAY.pdf)** ([Markdown](guides/EXAM-DAY.md)): the night-before laptop checklist, a minute-by-minute timeline, the rules, the module mock's code conventions, Swagger, ZIP + upload, and what to do if something breaks.
 - **[Concept refresher](guides/REFRESHER.pdf)** ([Markdown](guides/REFRESHER.md)): every concept with a snippet and a viva line, to read **on the way**. Notes are banned in the room, so put it away before you go in.
+
+## Friends: fork it and sit M1
+
+1. On GitHub, click **Fork**. **Untick "Copy the `main` branch only"**, so your fork also gets the `solutions` branch for comparing afterwards.
+2. Clone **your** fork, then follow *Set up on any device* below.
+3. Sit **M1** (section 2): open `mock-papers/M1-courier`, set a 120-minute timer, mark it with `java marking/Mark.java m1 mock-papers/M1-courier`, then compare (section 3).
+4. Get later updates: on GitHub click **Sync fork**, then `git pull`. Or from the terminal:
+   ```bash
+   git remote add upstream https://github.com/DDC-endpoint/OOP-practice.git   # once
+   git pull upstream main
+   ```
+   If you forked with "main only", fetch the answers with `git fetch upstream solutions:solutions`.
 
 ## Set up on any device (once)
 
@@ -47,11 +62,11 @@ Terminal alternative: `./mvnw -pl drills/d01-classes-constructors test` (Windows
 | d03 | ceiling division, tiered price, overflow → `IllegalArgumentException` | Tasks 1–2 |
 | d04 | polymorphism over `List<Parent>`, no `instanceof` | Task 2 |
 | d05 | `Comparator.comparing(...).thenComparing(...)`, streams | Task 2 |
-| d06 | records as DTOs, mapping model → DTO | Tasks 2–3 |
+| d06 | records as DTOs, mapping model → DTO (the real exam wants plain classes with getters instead; M1 shows how) | Tasks 2–3 |
 | d07 | service validation: positive, blank, `trim`, unique, not-found | Task 3 |
 | d08 | `@RestControllerAdvice` → 400 / 404 / 409 with `ApiError` | Task 3 |
 | d09 | `@GetMapping`, `@PostMapping`, `@PathVariable`, `@RequestParam`, `@RequestBody`, 201 | Task 4 |
-| d10 | run the app, curl it, read stack traces, fix bugs, ZIP checklist | Section B |
+| d10 | run the app, check it in Swagger UI, read stack traces, fix bugs, ZIP checklist | Section C |
 | d11 | *stretch:* preview vs commit, idempotent retry, half-open intervals | P2/P3 level |
 
 ## 2 · Sit a paper (exam conditions)
@@ -61,10 +76,17 @@ Terminal alternative: `./mvnw -pl drills/d01-classes-constructors test` (Windows
 | P1 Parking | `past-papers/P1-parking` | official practice, simple |
 | P2 Drone dispatch | `past-papers/P2-drone` | official practice, moderate |
 | P3 Scheduler | `past-papers/P3-scheduler` | official practice, extreme (stretch) |
-| **M1 Courier** | `mock-papers/M1-courier` | **new mock in the exact LBP format** |
+| **M1 Courier** | `mock-papers/M1-courier` | **mock in the official format and the module mock's conventions:** 120 min, Q1/Q2/Section C, plain classes (no records, no `dto`), `GlobalExceptionHandler` + `ErrorResponse`, `/parcels` on port 8080, Swagger at `/swagger-ui.html` |
 
 1. In IntelliJ: **File → Open →** the paper's folder (a separate window, like the real exam). Read `PAPER.md`.
-2. Set a **100-minute timer**. Use no hints and no solutions. Keep the app compiling. Leave the last 10 minutes for running checks and zipping.
+2. Set a timer for the paper's time: **M1 120 minutes** (110 to code and test + 10 to ZIP), **P1–P3 100 minutes**. Use no hints and no solutions. Keep the app compiling. Check your endpoints in Swagger UI as you go.
+
+   **Don't change the supplied classes.** Only edit code under a `// TODO`, plus the one new class. In particular:
+   - Ignore IntelliJ's **"Convert to record"** and other Alt+Enter suggestions on supplied classes.
+   - Don't change the repository's method signatures (for example `void save`).
+   - Reformat only the file you're editing (Ctrl+Alt+L), never with *Code cleanup*.
+
+   Breaking any of these can stop the marking tests compiling, and in the real exam it breaks the rules.
 3. Mark it from the repo root:
    ```bash
    java marking/Mark.java p1 past-papers/P1-parking        # m1 | p1 | p2 | p3

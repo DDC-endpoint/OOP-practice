@@ -78,12 +78,13 @@ Getter name → JSON name: `getEnergyUnits()` → `"energyUnits"`. A class with 
 ```java
 if (weightGrams <= 0) throw new IllegalArgumentException("weightGrams must be positive");
 if (code == null || code.isBlank()) throw new IllegalArgumentException("trackingCode is required");
-if (repo.exists(id)) throw new IllegalArgumentException("parcel " + id + " already exists");
+if (repo.exists(id)) throw new DuplicateParcelException("parcel " + id + " already exists");
 ```
 
 - Validate **before** you save. An invalid object must never reach the repository.
 - `isBlank()` also catches `"   "`. `isEmpty()` doesn't.
 - `IllegalArgumentException` → the handler turns it into **400 BAD_REQUEST**.
+- A **duplicate** is whatever the paper says: M1 has its own `DuplicateParcelException` → **409 CONFLICT**, while the module mock just uses `IllegalArgumentException` → 400. Check the starter's exception package.
 
 **Viva:** *"The service validates every field and throws IllegalArgumentException, so nothing invalid is stored, and the handler maps it to 400."*
 

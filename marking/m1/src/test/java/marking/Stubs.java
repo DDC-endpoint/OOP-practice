@@ -1,7 +1,7 @@
 package marking;
 
 import edu.practice.courier.model.Parcel;
-import edu.practice.courier.repo.ParcelRepository;
+import edu.practice.courier.repository.ParcelRepository;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;

@@ -4,30 +4,40 @@ module: OOP
 kind: mock
 title: "M1 · Mock · Courier Parcel Pricing & Dispatch API"
 difficulty: 3
-timeMinutes: 100
+timeMinutes: 120
 tasks:
   - { name: "Task 1 – Complete StandardParcel", marks: 18 }
   - { name: "Task 2 – Create ExpressParcel and plan the van load", marks: 22 }
   - { name: "Task 3 – Service lookup, validation and HTTP errors", marks: 20 }
   - { name: "Task 4 – Expose three REST operations", marks: 20 }
-  - { name: "Section B – Six functional checks", marks: 20 }
+  - { name: "Section C – Six functional checks", marks: 20 }
 ---
 
 # 5COSC019W | OBJECT ORIENTED PROGRAMMING
 
 ## MOCK PRACTICE EXAM M1
 
-**100-minute mock practical | Courier Parcel Pricing & Dispatch API**
+**120-minute mock practical (110 minutes to code and test + 10 minutes to ZIP and upload) | Courier Parcel Pricing & Dispatch API**
 
 **STUDENT PRACTICE PAPER • Entirely fictional. Written for this practice pack; NOT part of the live assessment and NOT a prediction of it.**
 
 ## Exam instructions
 
-- Individual timed practice: 100 minutes; maximum 100 marks. Challenge classification: between Simple and Moderate. Two pricing rules with ceiling rounding, a polymorphic sort-and-load routine, validation with three error codes, and four REST operations.
-- Use the starter project in this folder (`mock-papers/M1-courier`). Java 17 and the Maven Spring Boot project are required. Do not replace the parent class, DTO contracts or repository API unless a task explicitly tells you to.
-- Sit it like the real thing: no notes, no lessons, no solutions while the timer runs.
-- Save often. Keep the project compiling: a project that doesn't compile can't pass Section B.
-- Section A = 80 marks across four programming tasks (18/22/20/20). Section B = 20 marks across six functional checks. Attempt every task, even if some parts don't work.
+This mock follows the official LBP exam-day instructions and the conventions of the module team's own mock paper.
+
+- **Time:** 120 minutes. Spend the first **110** reading, coding and testing. Keep the **final 10 minutes only** for zipping the project (in the real exam, also uploading it to Blackboard). Set the timer once and don't pause it.
+- **Order:** do the questions in order. **Question 1 – Section A** (Java and OOP: Tasks 1–3), then **Question 2 – Section B** (Spring Boot and REST: Task 4), then **Section C – Functional verification** (run the app and check it in Swagger UI). Maximum 100 marks. Challenge level: between Simple and Moderate.
+- **Exactly ONE new Java class:** `ExpressParcel` (Task 2). Everything else goes under the existing `// TODO` comments. Don't create other classes, and don't modify the supplied configuration, repository API, request or response classes unless a task tells you to.
+- **Conventions (as in the module's mock):**
+  - the packages are `controller`, `exception`, `model`, `repository` and `service`, and there is **no** `dto` package
+  - request and response types are **ordinary Java classes with getters, not records**
+  - errors go through `GlobalExceptionHandler` and `ErrorResponse`
+  - URLs have no `/api` prefix
+  - the app runs on `http://localhost:8080`
+- **Testing tool:** the starter includes **Swagger UI** at `http://localhost:8080/swagger-ui.html`. Use it to run every request. Don't add any dependency.
+- **Stack:** this pack runs Java 17 + Spring Boot 3.3.5. The real exam uses **JDK 25** (and the module mock Spring Boot 4.1.1). The code you write is the same.
+- **Sit it like the real thing:** no notes, no lessons, no AI, no solutions, no earlier code of your own while the timer runs. Only this project open in IntelliJ.
+- Save often. Keep the project compiling: a project that doesn't compile can't pass Section C. Attempt every task, even if some parts don't work.
 
 ## Scenario
 
@@ -45,26 +55,29 @@ The starter (package `edu.practice.courier`) contains:
 
 | Package | Files |
 |---|---|
-| (root) | `CourierApplication` (port 8084) |
-| `model` | `Parcel` (abstract parent: `id`, `trackingCode`, `weightGrams`, abstract `pricePence()` and `priority()`), `StandardParcel` (incomplete) |
-| `dto` | `ApiError(code, message)`, `Quote(id, trackingCode, weightGrams, priority, pricePence)`, `NewStandardParcel(id, trackingCode, weightGrams, ratePerBlockPence)`, `VanLoad(capacityGrams, weightUsed, weightRemaining, totalPence, loaded, skipped)` |
-| `repo` | `ParcelRepository`, an in-memory `ConcurrentHashMap` with a seed TODO |
+| (root) | `CourierApplication` (port 8080, Swagger UI at `/swagger-ui.html`) |
+| `model` | `Parcel` (abstract parent: `id`, `trackingCode`, `weightGrams`, abstract `pricePence()` and `priority()`), `StandardParcel` (incomplete), and the plain request/response classes `Quote` (`id`, `trackingCode`, `weightGrams`, `priority`, `pricePence`), `NewStandardParcel` (`id`, `trackingCode`, `weightGrams`, `ratePerBlockPence`) and `VanLoad` (`capacityGrams`, `weightUsed`, `weightRemaining`, `totalPence`, `loaded`, `skipped`), each with a constructor and getters |
+| `repository` | `ParcelRepository`, an in-memory `ConcurrentHashMap` with a seed TODO |
 | `service` | `ParcelService` with TODO methods `quote`, `addStandard`, `loadVan` |
-| `controller` | `ParcelController` with `GET /api/parcels` and a TODO for the rest |
-| `error` | `ParcelNotFoundException`, `DuplicateParcelException`, `ApiExceptionHandler` (TODO) |
+| `controller` | `ParcelController` with `GET /parcels` and a TODO for the rest |
+| `exception` | `ErrorResponse` (`code`, `message`), `ParcelNotFoundException`, `DuplicateParcelException`, `GlobalExceptionHandler` (TODO) |
 
-Implement the stated TODOs. Create the second concrete model class, `ExpressParcel`, yourself. Use the repository seed comment to add the sample objects after creating it.
+Implement the stated TODOs. Create the one new class, `ExpressParcel`, yourself. Use the repository seed comment to add the sample objects after creating it.
 
 ## Assessment and marking
 
-| Component | Marks | Assessed outcome |
-|---|---|---|
-| Task 1 – First subclass | 18 | LO1 – OOP principles |
-| Task 2 – New subclass + object processing | 22 | LO1 – OOP principles |
-| Task 3 – Service implementation and errors | 20 | LO2 – API implementation |
-| Task 4 – Controller/API integration | 20 | LO2 – API implementation |
-| Section B – Functional testing | 20 | LO3 – Running implementation |
-| **Total** | **100** | |
+| Question / section | Component | Marks | Assessed outcome |
+|---|---|---|---|
+| Question 1 – Section A | Task 1 – First subclass | 18 | LO1 – OOP principles |
+| Question 1 – Section A | Task 2 – New subclass + object processing | 22 | LO1 – OOP principles |
+| Question 1 – Section A | Task 3 – Service logic, validation and errors | 20 | LO2 – API implementation |
+| Question 2 – Section B | Task 4 – Controller/API integration | 20 | LO2 – API implementation |
+| Section C | Functional verification (six checks) | 20 | LO3 – Running implementation |
+| | **Total** | **100** | |
+
+## Question 1 – Section A: Java and Object-Oriented Programming
+
+Tasks 1–3: the subclass, constructor, method overriding, validation, service-layer logic and collection operations.
 
 ## Task 1 – Complete StandardParcel [18 marks, LO1]
 
@@ -82,13 +95,13 @@ Implement the stated TODOs. Create the second concrete model class, `ExpressParc
   - sort by priority DESC, then `pricePence` ASC, then ID ASC
   - walk that order and greedily load every parcel whose `weightGrams` fits in the remaining capacity. Keep going after a parcel doesn't fit, because a lighter one later may still fit.
   - record the IDs that did not fit in `skipped`, in the order they were considered
-  - return `VanLoad(capacityGrams, weightUsed, weightRemaining, totalPence, loaded, skipped)`, where `totalPence` is the sum of the loaded prices.
+  - return a `new VanLoad(capacityGrams, weightUsed, weightRemaining, totalPence, loaded, skipped)`, where `totalPence` is the sum of the loaded prices.
 
 **Do not use `instanceof`, `getClass()` or any other concrete subclass check in `ParcelService`.** Add the two ExpressParcel seed records to `ParcelRepository` once your class exists.
 
 ## Task 3 – Service lookup, validation and HTTP errors [20 marks, LO2]
 
-- **4 marks:** `quote(id)` returns `Quote(id, trackingCode, weightGrams, priority, pricePence)` for the selected parcel. An unknown ID raises `ParcelNotFoundException`.
+- **4 marks:** `quote(id)` returns a `new Quote(id, trackingCode, weightGrams, priority, pricePence)` for the selected parcel. An unknown ID raises `ParcelNotFoundException`.
 - **6 marks:** `addStandard(NewStandardParcel)` validates:
   - a positive ID
   - a non-blank tracking code, trimmed before storing
@@ -97,16 +110,20 @@ Implement the stated TODOs. Create the second concrete model class, `ExpressParc
 
   Invalid input raises `IllegalArgumentException` and nothing is saved. Valid input is saved, and the new `StandardParcel` is returned.
 - **4 marks:** once the fields are valid, a duplicate ID or a tracking code that already exists (compare the trimmed code, ignoring case) raises `DuplicateParcelException`. The existing parcel must not be replaced.
-- **6 marks:** `loadVan` rejects `capacityGrams ≤ 0` with `IllegalArgumentException`. `ApiExceptionHandler` maps:
-  - `IllegalArgumentException` → HTTP 400 with `ApiError("BAD_REQUEST", message)`
-  - `ParcelNotFoundException` → HTTP 404 with `ApiError("NOT_FOUND", message)`
-  - `DuplicateParcelException` → HTTP 409 with `ApiError("CONFLICT", message)`
+- **6 marks:** `loadVan` rejects `capacityGrams ≤ 0` with `IllegalArgumentException`. `GlobalExceptionHandler` maps:
+  - `IllegalArgumentException` → HTTP 400 with `new ErrorResponse("BAD_REQUEST", message)`
+  - `ParcelNotFoundException` → HTTP 404 with `new ErrorResponse("NOT_FOUND", message)`
+  - `DuplicateParcelException` → HTTP 409 with `new ErrorResponse("CONFLICT", message)`
+
+## Question 2 – Section B: Spring Boot and REST API
+
+Task 4: the controller, using the existing project structure. Keep the handlers thin and delegate to `ParcelService`.
 
 ## Task 4 – Expose three REST operations [20 marks, LO2]
 
-- **5 marks:** `GET /api/parcels/{id}/quote` returns the `Quote` for that parcel (`@PathVariable`).
-- **6 marks:** `POST /api/parcels/standard` accepts a `NewStandardParcel` JSON body (`@RequestBody`) and returns **HTTP 201 Created** with the created parcel.
-- **6 marks:** `GET /api/parcels/van?capacityGrams=2000` returns the `VanLoad`. `capacityGrams` is a `@RequestParam` that **defaults to 2000** when it is omitted.
+- **5 marks:** `GET /parcels/{id}/quote` returns the `Quote` for that parcel (`@PathVariable`).
+- **6 marks:** `POST /parcels/standard` accepts a `NewStandardParcel` JSON body (`@RequestBody`) and returns **HTTP 201 Created** with the created parcel.
+- **6 marks:** `GET /parcels/van?capacityGrams=2000` returns the `VanLoad`. `capacityGrams` is a `@RequestParam` that **defaults to 2000** when it is omitted.
 - **3 marks:** every handler only delegates to `ParcelService`. No pricing, sorting, validation or repository access in the controller.
 
 ## Illustrative calculations and input
@@ -116,7 +133,7 @@ Implement the stated TODOs. Create the second concrete model class, `ExpressParc
 - **loadVan(2000):** sorted order is [3, 4, 2, 1]. Parcels 2 and 1 tie on priority 1, so the cheaper parcel 2 comes first. Load 3 (900 g, 1,100 g left), then 4 (300 g, 800 g left), then 2 (500 g, 300 g left). Skip 1, because 1,200 g doesn't fit. The result is weightUsed 1,700, weightRemaining 300, totalPence 1,840, skipped [1].
 - **POST** parcel 5, `CP-1005`, 2,600 g at 150 p: 6 started blocks × 150 = **900 p**.
 
-Expected shape of `GET /api/parcels/van?capacityGrams=2000`:
+Expected shape of `GET /parcels/van?capacityGrams=2000`:
 
 ```json
 {"capacityGrams":2000,"weightUsed":1700,"weightRemaining":300,"totalPence":1840,
@@ -129,24 +146,26 @@ Expected shape of `GET /api/parcels/van?capacityGrams=2000`:
 ## REST operations to demonstrate
 
 ```
-GET  /api/parcels
-GET  /api/parcels/1/quote
-GET  /api/parcels/3/quote
-GET  /api/parcels/van?capacityGrams=2000
-GET  /api/parcels/van
-POST /api/parcels/standard   JSON {"id":5,"trackingCode":"CP-1005","weightGrams":2600,"ratePerBlockPence":150}
+GET  /parcels
+GET  /parcels/1/quote
+GET  /parcels/3/quote
+GET  /parcels/van?capacityGrams=2000
+GET  /parcels/van
+POST /parcels/standard   JSON {"id":5,"trackingCode":"CP-1005","weightGrams":2600,"ratePerBlockPence":150}
 ```
 
-`requests.http` in this folder has these and the error cases ready to run (IntelliJ Ultimate). With Community, use curl, for example:
+Run them in **Swagger UI**: start `CourierApplication`, then open `http://localhost:8080/swagger-ui.html` (if that gives 404, try `/swagger-ui/index.html`).
 
-```
-curl -i http://localhost:8084/api/parcels/van?capacityGrams=2000
-curl -i -X POST http://localhost:8084/api/parcels/standard -H "Content-Type: application/json" -d "{\"id\":5,\"trackingCode\":\"CP-1005\",\"weightGrams\":2600,\"ratePerBlockPence\":150}"
-```
+1. Expand an operation and click **Try it out**.
+2. Fill in the path or query values, or paste the JSON into **Request body**.
+3. Click **Execute**.
+4. Read **Server response → Code**, then the **Response body**. The **Responses** table under it only lists the codes Swagger expects, not what your app answered.
 
-## Section B – Six functional checks [20 marks, LO3]
+`requests.http` in this folder has the same requests and the error cases (IntelliJ Ultimate HTTP Client). curl also works: `curl -i http://localhost:8080/parcels/van?capacityGrams=2000`.
 
-Each functional check is scored when the running application shows the required output or behaviour. The checks are independent of Section A source-code credit.
+## Section C – Functional verification: six checks [20 marks, LO3]
+
+Run the application and verify the endpoints in Swagger UI. Each functional check is scored when the running application shows the required output or behaviour. The checks are independent of the Section A and B source-code credit.
 
 1. **3** – StandardParcel 1 (1,200 g at 180 p per block) quotes 540 pence with priority 1.
 2. **3** – ExpressParcel 3 (900 g, base 400 p, signature required) quotes 1,060 pence with priority 3.
@@ -157,13 +176,13 @@ Each functional check is scored when the running application shows the required 
 
 ## Submission and final checks
 
-- Start the application and exercise both normal and invalid cases using curl, Postman or the IntelliJ HTTP Client.
-- In the real LBP you zip the complete Maven project folder (including `pom.xml`, sources, resources and any test files). Do not submit only `.java` files.
-- Before submission, confirm that your ZIP contains the most recent source files and can be extracted successfully.
+- Until minute 110: start the application and run both normal and invalid cases in Swagger UI (every check in Section C, plus one invalid case per operation).
+- **At minute 110, stop coding.** Stop the app. Zip the complete Maven project folder (including `pom.xml`, sources, resources and any test files). Do not submit only `.java` files.
+- Open the ZIP and confirm that it contains `pom.xml`, `src/main/java/...` and your new `ExpressParcel` class. In the real exam, upload it to **Blackboard** before minute 120, and raise your hand if the upload fails.
 
 ## How to sit and mark this mock
 
-1. Set a **100-minute timer**. Work only in `mock-papers/M1-courier`. Use no hints, lessons or solutions until the timer ends.
+1. Set a **120-minute timer**: 110 minutes to code and test, then practise the ZIP in the last 10. Work only in `mock-papers/M1-courier`, with only this folder open in IntelliJ. Use no hints, lessons or solutions until the timer ends.
 2. When time is up, stop typing and mark it from the repo root:
 
    ```
@@ -173,6 +192,6 @@ Each functional check is scored when the running application shows the required 
    On Windows: `marking\mark.cmd m1 mock-papers\M1-courier`. The JDK must be 17. If your PATH default is another JDK, set `JAVA_HOME` to `C:\Program Files\Java\jdk-17` first.
 3. The runner copies the marking tests into `src/test/java/marking`, runs them, and prints a mark per line, per task and out of 100. Read every `[ ]` line, then fix and re-mark if you want to practise the gaps.
 4. Compare with the model solution: `git diff main solutions -- mock-papers/M1-courier`.
-5. Practise the viva: explain out loud why `pricePence()` is abstract in `Parcel`, how your sort comparator works, and why the controller holds no logic.
+5. Practise the viva: explain out loud why `pricePence()` is abstract in `Parcel`, how your sort comparator works, why the controller holds no logic, and why `Quote` is a class with getters (Jackson turns getters into JSON fields).
 
 **This is a fictional practice paper written for this pack. It is not the real exam and does not predict its content. The score is an estimate from the rules stated above. Staff marking and the viva can differ.**

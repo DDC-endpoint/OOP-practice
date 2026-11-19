@@ -1,13 +1,13 @@
 package marking;
 
-import edu.practice.courier.dto.NewStandardParcel;
-import edu.practice.courier.dto.Quote;
-import edu.practice.courier.error.ApiExceptionHandler;
-import edu.practice.courier.error.DuplicateParcelException;
-import edu.practice.courier.error.ParcelNotFoundException;
+import edu.practice.courier.model.NewStandardParcel;
+import edu.practice.courier.model.Quote;
+import edu.practice.courier.exception.GlobalExceptionHandler;
+import edu.practice.courier.exception.DuplicateParcelException;
+import edu.practice.courier.exception.ParcelNotFoundException;
 import edu.practice.courier.model.Parcel;
 import edu.practice.courier.model.StandardParcel;
-import edu.practice.courier.repo.ParcelRepository;
+import edu.practice.courier.repository.ParcelRepository;
 import edu.practice.courier.service.ParcelService;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * M1 Task 3 – Service lookup, validation and HTTP errors [20 marks].
- * The error-mapping tests use a tiny throw-only controller plus YOUR ApiExceptionHandler,
+ * The error-mapping tests use a tiny throw-only controller plus YOUR GlobalExceptionHandler,
  * so they don't depend on the Task 4 endpoints.
  */
 class Task3Test {
@@ -40,7 +40,7 @@ class Task3Test {
     }
 
     static MockMvc mvc() {
-        return MockMvcBuilders.standaloneSetup(new Thrower()).setControllerAdvice(new ApiExceptionHandler()).build();
+        return MockMvcBuilders.standaloneSetup(new Thrower()).setControllerAdvice(new GlobalExceptionHandler()).build();
     }
 
     // ---- 4 marks: quote(id) builds a Quote from the parcel's own rules; unknown ID -> ParcelNotFoundException ----
@@ -51,15 +51,15 @@ class Task3Test {
         ParcelService service = new ParcelService(new Stubs.StubRepo(
                 new Stubs.FixedParcel(9, "ZED-9", 700, 375, 4), new Stubs.FixedParcel(4, "QUA-4", 50, 305, 1)));
         Quote q = service.quote(9);
-        assertEquals(9L, q.id());
-        assertEquals("ZED-9", q.trackingCode());
-        assertEquals(700, q.weightGrams());
-        assertEquals(4, q.priority());
-        assertEquals(375, q.pricePence());
+        assertEquals(9L, q.getId());
+        assertEquals("ZED-9", q.getTrackingCode());
+        assertEquals(700, q.getWeightGrams());
+        assertEquals(4, q.getPriority());
+        assertEquals(375, q.getPricePence());
         Quote other = service.quote(4);
-        assertEquals(305, other.pricePence());
-        assertEquals(1, other.priority());
-        assertEquals("QUA-4", other.trackingCode());
+        assertEquals(305, other.getPricePence());
+        assertEquals(1, other.getPriority());
+        assertEquals("QUA-4", other.getTrackingCode());
     }
 
     @Test
@@ -141,7 +141,7 @@ class Task3Test {
                 "codes added through addStandard count too");
     }
 
-    // ---- 6 marks: loadVan rejects capacity <= 0; handler maps 400 / 404 / 409 to ApiError ----
+    // ---- 6 marks: loadVan rejects capacity <= 0; handler maps 400 / 404 / 409 to ErrorResponse ----
 
     @Test
     void t3_loadVanRejectsNonPositiveCapacity_m1() {

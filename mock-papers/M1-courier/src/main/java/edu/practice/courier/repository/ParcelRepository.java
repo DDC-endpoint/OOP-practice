@@ -1,4 +1,4 @@
-package edu.practice.courier.repo;
+package edu.practice.courier.repository;
 import edu.practice.courier.model.*;import org.springframework.stereotype.Repository;
 import java.util.*;import java.util.concurrent.ConcurrentHashMap;
 @Repository public class ParcelRepository {

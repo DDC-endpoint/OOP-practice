@@ -16,7 +16,7 @@ import java.util.stream.*;
  *   1. copies marking/<paper-id>/src/test/java/marking/** into <projectDir>/src/test/java/marking/
  *   2. runs the project's Maven wrapper: mvnw test
  *   3. reads target/surefire-reports
- *   4. prints marks per task (18/22/20/20 + Section B 20 = 100)
+ *   4. prints marks per task (18/22/20/20 + functional checks 20 = 100; Section C for m1, Section B for p1-p3)
  *
  * Marks come from test method names ending in _m<N>  (e.g. t1_ceilingHours_m6).
  */
@@ -39,6 +39,10 @@ public class Mark {
             System.exit(64);
         }
         String id = args[0].toLowerCase(Locale.ROOT);
+        if (id.equals("m1")) {   // M1 follows the real exam's naming: the functional checks are Section C.
+            ALLOCATION.remove("SectionBTest");
+            ALLOCATION.put("SectionCTest", 20);
+        }
         Path home = Paths.get(System.getProperty("marking.home", "marking")).toAbsolutePath().normalize();
         Path source = home.resolve(id).resolve("src/test/java/marking");
         Path project = Paths.get(args[1]).toAbsolutePath().normalize();
@@ -78,7 +82,7 @@ public class Mark {
             List<String> errors = log.stream().filter(l -> l.contains("[ERROR]") && l.contains(".java")).limit(15).toList();
             (errors.isEmpty() ? log.stream().filter(l -> l.contains("[ERROR]")).limit(15).toList() : errors)
                     .forEach(System.out::println);
-            System.out.println("Tip: in the real exam a project that doesn't compile can't pass Section B. Keep it compiling.");
+            System.out.println("Tip: in the real exam a project that doesn't compile can't pass the functional checks (Section C). Keep it compiling.");
             System.exit(1);
         }
 
@@ -152,7 +156,7 @@ public class Mark {
             Matcher m = MARKED.matcher(Files.readString(source.resolve(cls + ".java")));
             while (m.find()) names.add(m.group(1));
             int earned = 0;
-            String title = cls.equals("SectionBTest") ? "Section B" : cls.replace("Test", "").replace("Task", "Task ");
+            String title = cls.startsWith("Section") ? "Section " + cls.charAt(7) : cls.replace("Test", "").replace("Task", "Task ");
             StringBuilder lines = new StringBuilder();
             for (String n : names) {
                 Matcher nm = NAME_MARKS.matcher(n);

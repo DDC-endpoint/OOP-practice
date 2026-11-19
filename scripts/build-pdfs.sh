@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Rebuilds every LESSON.pdf / HINTS.pdf (drills) and PAPER.pdf (papers), then checks them.
+# Rebuilds every LESSON.pdf / HINTS.pdf (drills), PAPER.pdf (papers) and guides/*.pdf, then checks them.
 # Run from anywhere:  bash scripts/build-pdfs.sh [filter]     e.g.  bash scripts/build-pdfs.sh d04
 # Needs Node 18+ and Chrome or Edge (set CHROME_PATH if it isn't in the usual place).
 set -eu

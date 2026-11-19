@@ -1,4 +1,4 @@
-// Renders every drill LESSON.md → LESSON.pdf + HINTS.pdf, and every PAPER.md → PAPER.pdf.
+// Renders every drill LESSON.md → LESSON.pdf + HINTS.pdf, every PAPER.md → PAPER.pdf, and every guides/<NAME>.md → guides/<NAME>.pdf.
 // Usage (from anywhere):  node scripts/pdf/build.mjs [filter]   e.g. `d01` or `P1` to build only matching folders.
 // Prefer the wrappers: bash scripts/build-pdfs.sh  |  scripts\build-pdfs.cmd
 import { readFileSync, existsSync } from 'node:fs';
@@ -114,6 +114,13 @@ function paperHtml(doc) {
   return out;
 }
 
+function guideHtml(doc) {
+  let out = titleBlock(doc.meta, doc.meta.title ?? 'Guide', 'OOP · LBP guide');
+  out += block(takeH1(doc.preamble, '').rest);
+  for (const s of doc.sections) out += `<h2>${inline(s.heading)}</h2>` + renderBody(s.body);
+  return out;
+}
+
 // ---------- HTML → PDF ----------
 const CSS = readFileSync(new URL('./style.css', import.meta.url), 'utf8');
 const HLJS_CSS = readFileSync(new URL('./node_modules/highlight.js/styles/github-dark.css', import.meta.url), 'utf8');
@@ -171,6 +178,9 @@ try {
     if (s.kind === 'drill') {
       await render(browser, page(`${id} · Lesson`, lessonHtml(doc, id)), join(s.dir, 'LESSON.pdf'), `${id} · Lesson · ${doc.meta.title ?? ''}`);
       await render(browser, page(`${id} · Hints`, hintsHtml(doc, id)), join(s.dir, 'HINTS.pdf'), `${id} · Hints & viva answers`);
+    } else if (s.kind === 'guide') {
+      const title = String(doc.meta.title ?? id);
+      await render(browser, page(title, guideHtml(doc)), join(s.dir, s.out), title);
     } else {
       await render(browser, page(`${id} · Paper`, paperHtml(doc)), join(s.dir, 'PAPER.pdf'), String(doc.meta.title ?? id));
     }

@@ -1,5 +1,5 @@
 @echo off
-rem Rebuilds every LESSON.pdf / HINTS.pdf (drills) and PAPER.pdf (papers), then checks them.
+rem Rebuilds every LESSON.pdf / HINTS.pdf (drills), PAPER.pdf (papers) and guides/*.pdf, then checks them.
 rem Run from anywhere:  scripts\build-pdfs.cmd [filter]     e.g.  scripts\build-pdfs.cmd d04
 rem Needs Node 18+ and Chrome or Edge (set CHROME_PATH if it isn't in the usual place).
 setlocal

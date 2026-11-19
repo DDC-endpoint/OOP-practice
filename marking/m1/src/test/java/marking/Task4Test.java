@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -41,6 +42,12 @@ class Task4Test {
 
     @MockBean
     ParcelService service;
+
+    /** NewStandardParcel is a plain class (no equals), so match the JSON body field by field. */
+    static NewStandardParcel bodyIs(long id, String trackingCode, int weightGrams, int ratePerBlockPence) {
+        return argThat(b -> b != null && b.getId() == id && trackingCode.equals(b.getTrackingCode())
+                && b.getWeightGrams() == weightGrams && b.getRatePerBlockPence() == ratePerBlockPence);
+    }
 
     static VanLoad van(int capacity) {
         return new VanLoad(capacity, 1200, capacity - 1200, 1590,
@@ -88,7 +95,7 @@ class Task4Test {
                 .andExpect(jsonPath("$.id").value(5))
                 .andExpect(jsonPath("$.trackingCode").value("CP-1005"))
                 .andExpect(jsonPath("$.weightGrams").value(2600));
-        verify(service).addStandard(new NewStandardParcel(5, "CP-1005", 2600, 150));
+        verify(service).addStandard(bodyIs(5, "CP-1005", 2600, 150));
     }
 
     // ---- 6 marks: GET /parcels/van?capacityGrams=... (defaults to 2000) ----
@@ -132,7 +139,7 @@ class Task4Test {
                 .andExpect(status().is2xxSuccessful());
         verify(service).quote(8L);
         verify(service).loadVan(750);
-        verify(service).addStandard(new NewStandardParcel(6, "D-6", 100, 1));
+        verify(service).addStandard(bodyIs(6, "D-6", 100, 1));
         SourceScan.assertNotMentioned(CONTROLLER_SRC, "Business logic belongs in ParcelService; the controller only delegates.",
                 "ParcelRepository", "pricePence(", "priority(", "Comparator", "sorted(", "new StandardParcel", "throw new");
     }

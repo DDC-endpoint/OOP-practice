@@ -9,20 +9,31 @@ tasks:
   - { name: "Fix: an unknown id answers 404 NOT_FOUND, not 500", marks: 3 }
   - { name: "Fix: the long-film surcharge matches the paper's values", marks: 3 }
   - { name: "Fix: the quotes list order (total DESC, then id ASC)", marks: 3 }
-  - { name: "Run the app, curl it and compare with the paper", marks: 1 }
+  - { name: "Run the app, check it in Swagger UI and compare with the paper", marks: 1 }
 ---
 
 # d10 · Debug and check a running API
 
-> **Exam link:** this is LBP **Section B** (20 marks, six functional checks). The briefing says: *"Section B checks executable functionality. A project that does not start cannot demonstrate the Section B behaviours"* and *"Correct compilation is necessary but does not by itself prove correct functionality."* P1's checks are things like *"An hourly stay of 61 minutes at 250 cents/hour produces 500 cents"* and *"A missing pass quotation returns 404 and the correct error code"*. Every paper ends with: *"Start the application and exercise both normal and invalid cases using Postman, curl or IntelliJ HTTP Client. Zip the complete Maven project folder … Do not submit only .java files."*
+> **Exam link:** this is LBP **Section C – Functional Verification**. The official instructions: *"Run the application and verify the required API endpoints and expected behaviours using the permitted testing interface"*, and *"The provided starter project includes an integrated Swagger UI interface for testing and verifying REST API endpoints."* The exam order is **Q1 Section A** (Java/OOP) → **Q2 Section B** (Spring Boot/REST) → **Section C** (run it and check it).
+>
+> The practice papers (P1–P3, M1) still use the older names, where this part is called "Section B" (20 marks). Their wording is still a good guide: *"A project that does not start cannot demonstrate the Section B behaviours"*, *"Correct compilation is necessary but does not by itself prove correct functionality"*, and checks like *"A missing pass quotation returns 404 and the correct error code"*.
+
+> **Exam-day rules** (from the official instructions, 2026-11-19):
+> - **120 minutes:** the first **110** to read, code and test, then the **final 10 only** to ZIP the project and upload it to **Blackboard**. The timer can't be paused, and you get one attempt.
+> - **JDK 25** and **IntelliJ IDEA Ultimate** only. The drills here run JDK 17 / Spring Boot 3.3, but the code you write is the same.
+> - Only the **starter project** may be open, one project, one desktop. No virtual desktops.
+> - Create **exactly ONE new Java class** (Question 1(a)). Everything else goes under the existing `// TODO`s. Don't change the supplied config, repository, request or response classes unless the paper says so.
+> - **Don't add dependencies.** The starter already has Swagger UI. A wrong version stops the app from starting, and then Section C scores nothing.
+> - **Allowed:** lecture slides and Blackboard materials. **Not allowed:** personal notes, AI tools (that includes IntelliJ AI Assistant and Copilot), messaging apps, other people's code, or your own earlier code.
+> - IntelliJ, JDK, Maven or Blackboard problem? **Raise your hand.** Don't close IntelliJ.
 
 ## The idea
 
-In Section B the examiner **runs** your app and sends it requests. Code that compiles but answers 500, or gives 1300 where the paper says 1150, scores nothing for that check. So before you submit, you check your own app the same way, in a loop:
+In Section C the examiner **runs** your app and sends it requests. Code that compiles but answers 500, or gives 1300 where the paper says 1150, scores nothing for that check. So before you submit, you check your own app the same way, in a loop:
 
 ```
 1. RUN      start the app
-2. HIT      send the request from the paper (curl or Postman)
+2. HIT      send the request from the paper (Swagger UI: Try it out, Execute)
 3. COMPARE  what you got  vs  what the paper's illustrative values say
 4. READ     if it crashed, read the stack trace down to the first edu.practice line
 5. FIX      change the smallest thing
@@ -43,9 +54,29 @@ Now the API is live at `http://localhost:8080`.
 - `Port 8080 was already in use` means an older copy is still running. Stop it with the red square, then run again.
 - The tests (`CinemaApiTest`) start their own copy on a random port, so they never clash with the app you started.
 
-### 2. Hit the endpoints
+### 2. Hit the endpoints: Swagger UI
 
-**Git Bash** (or macOS/Linux):
+With the app running, open this in the browser:
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+The port is whatever the app printed (`Tomcat started on port ...`), set by `server.port` in `application.properties`. The exam starters may use 8081, 8082 and so on. If that page gives 404, try `/swagger-ui.html`.
+
+Swagger lists every endpoint of every controller, grouped by controller. For each request from the paper:
+
+1. Click the endpoint (for example `GET /api/screenings/{id}/quote`) to expand it.
+2. Click **Try it out**.
+3. Fill in the boxes. Each `@PathVariable` and `@RequestParam` gets its own box (`id` = 3, `seats` = 2). For a POST, replace the example JSON in **Request body** with the paper's JSON.
+4. Click **Execute**.
+5. Scroll down to **Server response**. Read the **Code** first (200, 201, 400, 404 …), then the **Response body**.
+
+**Trap:** below Server response there's a second table called **Responses**. That's only the list of codes Swagger *expects* the endpoint could return. It is **not** what your app answered. Always read **Server response → Code**.
+
+Swagger also shows the **Request URL** it called, for example `http://localhost:8080/api/screenings/3/quote?seats=2`. Compare it with the paper's URL when something answers 404 unexpectedly, because that usually means the mapping path is wrong.
+
+**Fallback: curl**, only if Swagger won't load. In **Git Bash** (or macOS/Linux):
 
 ```bash
 curl -i http://localhost:8080/api/screenings/3
@@ -54,26 +85,7 @@ curl -i -X POST http://localhost:8080/api/screenings -H "Content-Type: applicati
      -d '{"id":7,"film":"Quiet Storm","runtimeMinutes":133,"basePriceCents":1000}'
 ```
 
-**Windows PowerShell:** type `curl.exe`, not `curl`. Plain `curl` in PowerShell is a different command with different options. JSON in quotes is painful in PowerShell, so save the body in a file and send the file with `@`:
-
-```powershell
-# new-screening.json, saved in the folder you run the command from:
-#   {"id":7,"film":"Quiet Storm","runtimeMinutes":133,"basePriceCents":1000}
-curl.exe -i "http://localhost:8080/api/screenings/3/quote?seats=2"
-curl.exe -i -X POST http://localhost:8080/api/screenings -H "Content-Type: application/json" --data "@new-screening.json"
-```
-
-The `--data "@file.json"` form works the same in Git Bash and in `cmd.exe` too. Keep `"@new-screening.json"` in quotes: in PowerShell a bare `@` means something else.
-
-| Part | Meaning |
-|---|---|
-| `-i` | print the status line (`HTTP/1.1 201`) and headers above the body. **Always use it**: the status is half the check. |
-| `-X POST` | the HTTP method (GET is the default) |
-| `-H "Content-Type: application/json"` | "my body is JSON". Without it Spring answers **415**. |
-| `-d '...'` / `--data "@file.json"` | the request body, typed in or read from a file |
-| `"..."` around the URL | needed whenever the URL has `?` or `&` in it |
-
-**Postman** (optional, if it's installed): pick the method, paste the URL, then for a POST choose **Body → raw → JSON** and paste the JSON. Press **Send**. The status is shown at the top right of the response. A **browser** works too, but only for GET.
+**Windows PowerShell:** type `curl.exe`, not `curl`. Put the JSON in a file and send it with `--data "@new-screening.json"`, keeping it in quotes. `-i` prints the status line. Without `-H "Content-Type: application/json"` Spring answers **415**. Put quotes around any URL that has `?` or `&` in it.
 
 ### 3. Compare
 
@@ -129,20 +141,19 @@ Change **one** thing, the smallest change that could explain the symptom. Don't 
 | 400 | Bad Request | invalid input (`IllegalArgumentException` → `BAD_REQUEST`) |
 | 404 | Not Found | unknown id (`XNotFoundException` → `NOT_FOUND`). Also what Spring answers when **no endpoint** matches the URL. |
 | 409 | Conflict | valid, but clashes with stored state (`CONFLICT`) |
-| 415 | Unsupported Media Type | you forgot `-H "Content-Type: application/json"` |
+| 415 | Unsupported Media Type | the body wasn't sent as JSON (Swagger sets this for you; with curl, add `-H "Content-Type: application/json"`) |
 | 500 | Internal Server Error | an exception escaped: a bug, or a missing handler |
 
 ### The ZIP checklist (the last 10 minutes)
 
-The briefing says to *"reserve roughly the final 10 minutes for running final checks, verifying the ZIP and uploading it"*. A perfect project that is zipped wrongly scores 0 for Section B.
+The official instructions: *"First 110 minutes: … coding and testing your solution. Final 10 minutes: Creating a ZIP file of your completed project and uploading it to Blackboard."* So finish all your Swagger checks **before minute 110**. The last 10 minutes are only for the ZIP and the upload. A perfect project that is zipped wrongly, or never uploaded, scores nothing for Section C.
 
-1. **Stop coding** at about 10 minutes to go. Stop the running app (red square).
+1. **At minute 110, stop coding.** Save, then stop the running app (red square).
 2. Find the **project folder**: the folder that has `pom.xml` and `src` directly inside it (in IntelliJ: right-click the project's top folder → *Open In → Explorer*).
-3. Zip the **whole folder**, not the `.java` files. In Explorer, right-click the folder → *Send to → Compressed (zipped) folder*. On Windows 11 that's under *Show more options*, or use *Compress to ZIP file* straight from the menu.
-4. Open the ZIP and check it has `pom.xml` and `src/main/java/...` and `src/main/resources/application.properties` inside. `target/` and `.idea/` don't matter.
-5. **Extract it somewhere else** (for example, a new folder on the Desktop). In IntelliJ, *File → Open*, pick that copy's `pom.xml`, choose *Open as Project*, and let Maven load. Run the application class once and curl one endpoint.
-6. Open the file you changed last and check your latest change is really in the copy.
-7. Upload it with the file name the invigilator gives you.
+3. Zip the **whole folder**, not the `.java` files. In Explorer, right-click the folder → *Compress to ZIP file* (Windows 11), or *Send to → Compressed (zipped) folder*.
+4. Double-click the ZIP and check that it has `pom.xml`, `src/main/java/...` and `src/main/resources/application.properties` inside. `target/` and `.idea/` don't matter.
+5. **Upload the ZIP to Blackboard**, and wait until it confirms the submission.
+6. Any problem with the upload: **raise your hand** straight away.
 
 ## Worked example
 
@@ -150,11 +161,11 @@ This one is a different app: a **bike hire API**. Its paper says:
 
 > `GET /api/bikes/{id}/quote?hours=2&member=true`: price = `hours × rateCents`; members get 10% off. Unknown id → 404 `NOT_FOUND`. *Illustrative: bike 1 (500 cents/hour), 2 hours, member → 900. Bike 9 doesn't exist → 404.*
 
-**Bug 1: a 500.** Run the app, then:
+**Bug 1: a 500.** Run the app and open Swagger UI. Expand `GET /api/bikes/{id}/quote` → **Try it out**, then fill in `id` 9, `hours` 2, `member` false → **Execute**. Server response:
 
-```bash
-$ curl -i "http://localhost:8080/api/bikes/9/quote?hours=2&member=false"
-HTTP/1.1 500
+```
+Code: 500
+Response body:
 {"timestamp":"...","status":500,"error":"Internal Server Error","path":"/api/bikes/9/quote"}
 ```
 
@@ -183,7 +194,7 @@ if (bike == null) throw new BikeNotFoundException(id);    // added
 int price = hours * bike.getRateCents();
 ```
 
-Rerun, and send the same curl: `HTTP/1.1 404` and `{"code":"NOT_FOUND","message":"Bike not found: 9"}`. ✔ Re-check bike 1 still answers 200.
+Rerun, and click **Execute** again with the same values: Code `404` and `{"code":"NOT_FOUND","message":"Bike not found: 9"}`. ✔ Re-check bike 1 still answers 200.
 
 **Bug 2: a wrong number, no crash.**
 
@@ -236,10 +247,10 @@ The cinema API in `src/main/java/edu/practice/d10` is **finished, but it has exa
 > - `GET /api/screenings/99` → **404** `{"code":"NOT_FOUND","message":"Screening not found: 99"}`.
 
 1. Run `CinemaApiTest`. **7 checks pass**: that's what working looks like. **3 fail**, one per bug. Read each red message as a *symptom*.
-2. Run `CinemaApplication`. Reproduce each symptom with curl (or Postman) and fill in a compare table using the illustrative values above.
+2. Run `CinemaApplication` and open `http://localhost:8080/swagger-ui/index.html`. Reproduce each symptom in Swagger (**Try it out → Execute**) and fill in a compare table using the illustrative values above.
 3. For each symptom, find the cause and fix the smallest thing. Don't edit the tests, the rules or the seed data.
-4. Rerun until all **10 checks** are green. Then restart the app and send your curls again.
-5. Practise the ZIP checklist on `past-papers/P1-parking`. Don't practise it on this drill: drill folders share the parent `pom.xml` at the repo root, so a drill folder on its own won't open. Exam starters are standalone, like P1.
+4. Rerun until all **10 checks** are green. Then restart the app and click through every endpoint in Swagger again, including one invalid case each (`seats=0`, id 99, a POST with an empty `film`).
+5. Practise the ZIP checklist, timed at 10 minutes, on `past-papers/P1-parking`. Don't practise it on this drill: drill folders share the parent `pom.xml` at the repo root, so a drill folder on its own won't open. Exam starters are standalone, like P1.
 
 ## Hints
 
@@ -256,7 +267,7 @@ Fix one at a time, and rerun the tests after each fix. One more check should go 
 
 <details><summary>Hint 2: check 3 (the 500)</summary>
 
-Run `curl -i http://localhost:8080/api/screenings/99` and look at the Run window:
+In Swagger, execute `GET /api/screenings/{id}` with `id` 99. The Code is 500. Now look at IntelliJ's Run window:
 
 ```
 edu.practice.d10.error.ScreeningNotFoundException: Screening not found: 99
@@ -312,12 +323,12 @@ It's right for 31–59 but wrong at exact multiples: for 30 minutes it gives 2 i
 It flips the whole chain built so far, including the tie-breaks. To sort the total high → low but ties by id low → high, I call `.reversed()` straight after the first key, and only then add `.thenComparingLong(...)`.
 </details>
 
-<details><summary>It compiles and the tests I ran pass. Why still run it and curl it?</summary>
+<details><summary>It compiles and the tests I ran pass. Why still run it and check it in Swagger?</summary>
 
-Compiling doesn't prove the behaviour. Section B runs the app and checks status codes, values and order, so I check them the same way: the paper's illustrative values first, then an edge case. I also restart the app after every change, because a running app keeps the old code.
+Compiling doesn't prove the behaviour. Section C runs the app and checks status codes, values and order, so I check them the same way in Swagger UI: the paper's illustrative values first, then an edge case. I also restart the app after every change, because a running app keeps the old code.
 </details>
 
 <details><summary>What goes in the submission ZIP, and how do you check it?</summary>
 
-The whole Maven project folder: `pom.xml` and `src` (main, resources and any tests), not just the `.java` files. I extract the ZIP into another folder, open its `pom.xml` in IntelliJ, run the app once, and check my latest change is in it. I leave about 10 minutes for this.
+The whole Maven project folder: `pom.xml` and `src` (main, resources and any tests), not just the `.java` files. I stop coding at minute 110, zip the folder, open the ZIP to check `pom.xml` and `src` are inside, and upload it to Blackboard in the final 10 minutes.
 </details>

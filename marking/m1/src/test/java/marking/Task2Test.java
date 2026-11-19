@@ -1,9 +1,9 @@
 package marking;
 
-import edu.practice.courier.dto.Quote;
-import edu.practice.courier.dto.VanLoad;
+import edu.practice.courier.model.Quote;
+import edu.practice.courier.model.VanLoad;
 import edu.practice.courier.model.Parcel;
-import edu.practice.courier.repo.ParcelRepository;
+import edu.practice.courier.repository.ParcelRepository;
 import edu.practice.courier.service.ParcelService;
 import org.junit.jupiter.api.Test;
 
@@ -124,13 +124,13 @@ class Task2Test {
     @Test
     void t2_loadVanPaperExample_m2() {
         VanLoad v = new ParcelService(new ParcelRepository()).loadVan(2000);
-        assertEquals(List.of(3L, 4L, 2L), ids(v.loaded()),
+        assertEquals(List.of(3L, 4L, 2L), ids(v.getLoaded()),
                 "paper: loaded [3,4,2]. Seed ExpressParcel 3 and 4 in ParcelRepository after Task 2");
-        assertEquals(List.of(1L), v.skipped());
-        assertEquals(2000, v.capacityGrams());
-        assertEquals(1700, v.weightUsed());
-        assertEquals(300, v.weightRemaining());
-        assertEquals(1840, v.totalPence());
+        assertEquals(List.of(1L), v.getSkipped());
+        assertEquals(2000, v.getCapacityGrams());
+        assertEquals(1700, v.getWeightUsed());
+        assertEquals(300, v.getWeightRemaining());
+        assertEquals(1840, v.getTotalPence());
     }
 
     @Test
@@ -144,10 +144,10 @@ class Task2Test {
                 new Stubs.FixedParcel(2, "E-2", 100, 100, 2),
                 new Stubs.FixedParcel(41, "F-41", 100, 50, 2)));
         VanLoad v = s.loadVan(10_000);
-        assertEquals(List.of(50L, 41L, 2L, 12L, 7L, 30L), ids(v.loaded()), "priority DESC, then pricePence ASC, then ID ASC");
-        assertEquals(List.of(900, 50, 100, 200, 500, 500), v.loaded().stream().map(Quote::pricePence).toList());
-        assertEquals(List.of(), v.skipped());
-        assertEquals(2250, v.totalPence());
+        assertEquals(List.of(50L, 41L, 2L, 12L, 7L, 30L), ids(v.getLoaded()), "priority DESC, then pricePence ASC, then ID ASC");
+        assertEquals(List.of(900, 50, 100, 200, 500, 500), v.getLoaded().stream().map(Quote::getPricePence).toList());
+        assertEquals(List.of(), v.getSkipped());
+        assertEquals(2250, v.getTotalPence());
     }
 
     @Test
@@ -160,16 +160,16 @@ class Task2Test {
                 new Stubs.FixedParcel(3, "R-3", 300, 20, 2)));
         // order 1(600) 2(500) 3(300) 4(100) 5(200)
         VanLoad full = s.loadVan(1000);
-        assertEquals(List.of(1L, 3L, 4L), ids(full.loaded()), "2 does not fit after 1, but 3 and 4 still do (exact fit allowed)");
-        assertEquals(List.of(2L, 5L), full.skipped(), "skipped IDs in the order they were considered");
-        assertEquals(1000, full.weightUsed());
-        assertEquals(0, full.weightRemaining());
-        assertEquals(35, full.totalPence());
+        assertEquals(List.of(1L, 3L, 4L), ids(full.getLoaded()), "2 does not fit after 1, but 3 and 4 still do (exact fit allowed)");
+        assertEquals(List.of(2L, 5L), full.getSkipped(), "skipped IDs in the order they were considered");
+        assertEquals(1000, full.getWeightUsed());
+        assertEquals(0, full.getWeightRemaining());
+        assertEquals(35, full.getTotalPence());
         VanLoad small = s.loadVan(700);
-        assertEquals(List.of(1L, 4L), ids(small.loaded()));
-        assertEquals(List.of(2L, 3L, 5L), small.skipped());
-        assertEquals(700, small.weightUsed());
-        assertEquals(15, small.totalPence());
+        assertEquals(List.of(1L, 4L), ids(small.getLoaded()));
+        assertEquals(List.of(2L, 3L, 5L), small.getSkipped());
+        assertEquals(700, small.getWeightUsed());
+        assertEquals(15, small.getTotalPence());
     }
 
     @Test
@@ -180,16 +180,16 @@ class Task2Test {
                 express(11, "E-11", 250, 50, false),
                 new Stubs.FixedParcel(12, "F-12", 50, 999, 5)));
         VanLoad v = s.loadVan(1100);
-        assertEquals(List.of(12L, 11L), ids(v.loaded()));
-        assertEquals(List.of(999, 140), v.loaded().stream().map(Quote::pricePence).toList(), "E-11 = 50 + 90");
-        assertEquals(List.of(5, 2), v.loaded().stream().map(Quote::priority).toList());
-        assertEquals(List.of(10L), v.skipped());
-        assertEquals("E-11", v.loaded().get(1).trackingCode());
-        assertEquals(250, v.loaded().get(1).weightGrams());
+        assertEquals(List.of(12L, 11L), ids(v.getLoaded()));
+        assertEquals(List.of(999, 140), v.getLoaded().stream().map(Quote::getPricePence).toList(), "E-11 = 50 + 90");
+        assertEquals(List.of(5, 2), v.getLoaded().stream().map(Quote::getPriority).toList());
+        assertEquals(List.of(10L), v.getSkipped());
+        assertEquals("E-11", v.getLoaded().get(1).getTrackingCode());
+        assertEquals(250, v.getLoaded().get(1).getWeightGrams());
         SourceScan.assertNoTypeChecks(SERVICE_SRC, "StandardParcel", "ExpressParcel");
     }
 
     static List<Long> ids(List<Quote> quotes) {
-        return quotes.stream().map(Quote::id).toList();
+        return quotes.stream().map(Quote::getId).toList();
     }
 }

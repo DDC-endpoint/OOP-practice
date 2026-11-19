@@ -16,7 +16,7 @@ tasks:
 
 # d11 · Preview, commit and idempotent retries
 
-> **Exam link:** this is the hard end of LBP **Tasks 3–4**, at P3 level. P3: *"Each reservation uses a half-open interval [startTick,endTickExclusive)"*, *"Preview must not mutate confirmed state"*, and *"identical retry (same runKey, same request) must return the identical original plan without duplicating reservations; same runKey with changed values must produce HTTP 409 / ApiError(code="CONFLICT")"* (7 marks). Its Section B checks *"Preview makes no persistent reservations, even after repeated calls"* (3) and *"Commit stores once; identical retry returns original plan and never double-books"* (4). This is a stretch drill: do d07–d09 first.
+> **Exam link:** this is the hard end of the LBP's **Q1 service-layer logic** and **Q2 Section B** (Spring Boot/REST), and **Section C – Functional Verification** checks it by running the app in Swagger UI. The quotes below are practice-paper wording (P3, where the running-app checks are still called "Section B"). P3: *"Each reservation uses a half-open interval [startTick,endTickExclusive)"*, *"Preview must not mutate confirmed state"*, and *"identical retry (same runKey, same request) must return the identical original plan without duplicating reservations; same runKey with changed values must produce HTTP 409 / ApiError(code="CONFLICT")"* (7 marks). Its Section B checks *"Preview makes no persistent reservations, even after repeated calls"* (3) and *"Commit stores once; identical retry returns original plan and never double-books"* (4). This is a stretch drill: do d07–d09 first.
 
 ## The idea
 
@@ -65,7 +65,7 @@ Inside one preview, a request must also be checked against the requests already 
 List<BookingRequest> accepted = new ArrayList<>();   // local: it disappears when preview returns
 ```
 
-**Trap 1: saving to "remember".** Calling `repo.save(...)` inside preview to remember an accepted request makes it a real booking. The next preview, or a `GET /bookings`, will see it. Section B calls preview twice and checks that nothing changed.
+**Trap 1: saving to "remember".** Calling `repo.save(...)` inside preview to remember an accepted request makes it a real booking. The next preview, or a `GET /bookings`, will see it. Section C (in the practice papers, "Section B") calls preview twice and checks that nothing changed.
 
 **Trap 2: a shared list.** `=` copies the *reference*, not the list:
 
@@ -196,21 +196,25 @@ Write the four methods, in this order. The TODOs in the file spell out each step
 3. **d11-3** `preview(requests)`: `validate`, then the loop with two local lists.
 4. **d11-4** `commit(request)`: the key check, then `preview`, then save and store.
 
-Run `BookingServiceTest` first (12 tests, no Spring, fast, precise messages), then `RoomBookingApiTest` (8 Section B style checks over HTTP). Work until all 20 are green.
+Run `BookingServiceTest` first (12 tests, no Spring, fast, precise messages), then `RoomBookingApiTest` (8 Section C style checks over HTTP). Work until all 20 are green.
 
-**Then try it for real.** Run `MeetingRoomsApplication`. Save this as `standup.json`:
+**Then try it for real, in Swagger UI, the same way the exam checks it.** Run `MeetingRoomsApplication` and open `http://localhost:8080/swagger-ui/index.html`. (The exam uses JDK 25 and its own port, but the steps are the same.)
 
-```json
-{"key":"standup-1","bookings":[{"room":"ASPEN","start":11,"end":12},{"room":"CEDAR","start":12,"end":13}]}
-```
+1. Expand `POST /api/rooms/commit` → **Try it out**. Replace the example **Request body** with:
 
-```bash
-curl -i -X POST http://localhost:8080/api/rooms/commit -H "Content-Type: application/json" --data "@standup.json"
-curl -i -X POST http://localhost:8080/api/rooms/commit -H "Content-Type: application/json" --data "@standup.json"
-curl -i http://localhost:8080/api/rooms/bookings
-```
+   ```json
+   {"key":"standup-1","bookings":[{"room":"ASPEN","start":11,"end":12},{"room":"CEDAR","start":12,"end":13}]}
+   ```
 
-(In PowerShell, type `curl.exe`.) Both commits should print the **same** body, and the bookings list should have 6 entries, not 8. Now change `"end":13` to `"end":14` in the file and commit again: `HTTP/1.1 409`.
+2. Click **Execute**. Under **Server response**, note the Code (200) and copy the Response body.
+3. Click **Execute** again with the **same** body. The Code and the body must be **identical**: an identical retry returns the stored result.
+4. Expand `GET /api/rooms/bookings` → **Try it out** → **Execute**. The list must have **6** entries, not 8: the retry didn't double-book.
+5. Back in commit, change `"end":13` to `"end":14` (same key, different request) → **Execute**. Code **409**, body `{"code":"CONFLICT",...}`.
+6. Expand `POST /api/rooms/preview` and execute a body with just the bookings (`{"bookings":[...]}`, no `key`) twice, then list the bookings again. The count must not change: preview never saves.
+
+Read **Server response → Code**, not the **Responses** table under it. That table only lists the codes Swagger expects, not what your app answered.
+
+**Fallback: curl**, only if Swagger won't load. Save the body as `standup.json`, then run `curl -i -X POST http://localhost:8080/api/rooms/commit -H "Content-Type: application/json" --data "@standup.json"` (in PowerShell, `curl.exe`).
 
 ## Hints
 

@@ -10,6 +10,13 @@ A **viva** follows, where you explain your code.
 - **Drills** teach one skill each with a lesson, then mark you with tests.
 - **Papers** rehearse the real thing and give you a score out of 100.
 
+## Exam day
+
+The real LBP follows the **official exam-day instructions**: 120 minutes (the final 10 only for the ZIP and the Blackboard upload), JDK 25 + IntelliJ Ultimate, Sections A/B/C, Swagger UI in the starter, and exactly one new class. Two guides:
+
+- **[Exam-day guide](guides/EXAM-DAY.pdf)** ([Markdown](guides/EXAM-DAY.md)): the night-before laptop checklist, a minute-by-minute timeline, the rules, the module mock's code conventions, Swagger, ZIP + upload, and what to do if something breaks.
+- **[Concept refresher](guides/REFRESHER.pdf)** ([Markdown](guides/REFRESHER.md)): every concept with a snippet and a viva line, to read **on the way**. Notes are banned in the room, so put it away before you go in.
+
 ## Set up on any device (once)
 
 1. Install **JDK 17** and **IntelliJ IDEA** (Community is fine).

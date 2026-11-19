@@ -19,6 +19,12 @@ export function sources() {
   for (const d of [...dirs('past-papers'), ...dirs('mock-papers')]) {
     if (existsSync(join(ROOT, d, 'PAPER.md'))) out.push({ kind: 'paper', dir: d, src: join(d, 'PAPER.md') });
   }
+  // Guides: every guides/<NAME>.md → guides/<NAME>.pdf (rendered and checked like a paper).
+  if (existsSync(join(ROOT, 'guides'))) {
+    for (const f of readdirSync(join(ROOT, 'guides')).filter((n) => n.endsWith('.md')).sort()) {
+      out.push({ kind: 'guide', dir: 'guides', src: join('guides', f), out: f.replace(/\.md$/, '.pdf') });
+    }
+  }
   return out;
 }
 

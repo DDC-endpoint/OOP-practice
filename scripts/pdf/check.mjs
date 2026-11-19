@@ -2,7 +2,7 @@
 //   AC-2  no hint or viva answer leaks into LESSON.pdf
 //   AC-3  HINTS.pdf has every hint and every viva Q+A, in source order
 //   AC-4  LESSON.pdf has the core sections, the title and every viva question
-//   AC-5  PAPER.pdf has every `## ` heading of PAPER.md
+//   AC-5  PAPER.pdf has every `## ` heading of PAPER.md (and guides/<NAME>.pdf of guides/<NAME>.md)
 // Usage: node scripts/pdf/check.mjs        (exit 1 on any failure)
 import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
@@ -48,12 +48,13 @@ const all = sources();
 for (const s of all) {
   const doc = parseDoc(s.src);
   const out = (f) => join(s.dir, f);
-  const missing = (s.kind === 'drill' ? ['LESSON.pdf', 'HINTS.pdf'] : ['PAPER.pdf']).filter((f) => !existsSync(join(ROOT, out(f))));
+  const pdfs = s.kind === 'drill' ? ['LESSON.pdf', 'HINTS.pdf'] : [s.kind === 'guide' ? s.out : 'PAPER.pdf'];
+  const missing = pdfs.filter((f) => !existsSync(join(ROOT, out(f))));
   if (missing.length) { missing.forEach((f) => fail(`${out(f)} does not exist (run scripts/build-pdfs)`)); continue; }
 
-  if (s.kind === 'paper') {
-    const text = await pdfText(out('PAPER.pdf'));
-    inOrder(text, doc.sections.map((x) => mdi(x.heading)), out('PAPER.pdf'));
+  if (s.kind === 'paper' || s.kind === 'guide') {
+    const text = await pdfText(out(pdfs[0]));
+    inOrder(text, doc.sections.map((x) => mdi(x.heading)), out(pdfs[0]));
     continue;
   }
 
@@ -89,6 +90,7 @@ for (const s of all) {
 }
 
 const drills = all.filter((s) => s.kind === 'drill').length;
-const papers = all.length - drills;
-console.log(`${fails ? 'FAIL' : 'PASS'}  ${checks - fails}/${checks} checks · ${drills} drills (LESSON + HINTS) · ${papers} papers`);
+const guides = all.filter((s) => s.kind === 'guide').length;
+const papers = all.length - drills - guides;
+console.log(`${fails ? 'FAIL' : 'PASS'}  ${checks - fails}/${checks} checks · ${drills} drills (LESSON + HINTS) · ${papers} papers · ${guides} guides`);
 process.exit(fails ? 1 : 0);

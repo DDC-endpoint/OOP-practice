@@ -1,5 +1,5 @@
 package edu.practice.courier.service;
-import edu.practice.courier.model.*;import edu.practice.courier.dto.*;import edu.practice.courier.repo.*;import edu.practice.courier.error.*;
+import edu.practice.courier.model.*;import edu.practice.courier.repository.*;import edu.practice.courier.exception.*;
 import org.springframework.stereotype.Service;import java.util.*;
 @Service public class ParcelService {
  private final ParcelRepository repo;
